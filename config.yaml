@@ -1,6 +1,7 @@
 baseURL: https://openslo.github.io/
 languageCode: en-us
 title: OpenSLO
+publishDir: docs/
 theme: hugo-fresh
 googleAnalytics: 272574964
 # Disables warnings
