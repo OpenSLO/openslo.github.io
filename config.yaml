@@ -17,7 +17,7 @@ params:
   # Open graph allows easy social sharing. If you don't want it you can set it to false or just delete the variable
   openGraph: true
   # Used as meta data; describe your site to make Google Bots happy
-  description:
+  summary: Open Service Level Objective (SLO) Specification. Designed to make SLOs ergonomic to modern developer Git workflow.
   navbarlogo:
   # Logo (from static/images/logos/___)
     image: openslo_logo.svg
@@ -45,7 +45,7 @@ params:
   - title: Join our Slack
     url: https://github.com/OpenSLO/OpenSLO/blob/initial-draft/CONTRIBUTING.md#slack
   - title: Demo Video
-    url: https://tbd.com
+    url: https://youtu.be/5clDQj8_Q_8
   section1:
     title: OpenSLO
     subtitle: Open Service Level Objective (SLO) Specification. Designed to make SLOs ergonomic to modern developer Git workflow.
