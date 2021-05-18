@@ -1,0 +1,78 @@
+baseURL: https://openslo.github.io/
+languageCode: en-us
+title: OpenSLO
+theme: hugo-fresh
+googleAnalytics: 272574964
+# Disables warnings
+disableKinds:
+- taxonomy
+- taxonomyTerm
+markup:
+  goldmark:
+    renderer:
+      unsafe: true # Allows you to write raw html in your md files
+
+params:
+  # Open graph allows easy social sharing. If you don't want it you can set it to false or just delete the variable
+  openGraph: true
+  # Used as meta data; describe your site to make Google Bots happy
+  description:
+  navbarlogo:
+  # Logo (from static/images/logos/___)
+    image: openslo_logo.svg
+    link: /
+  font:
+    name: "Open Sans"
+    sizes: [400,600]
+  hero:
+    # Main hero title
+    title: What is OpenSLO?
+    # Hero subtitle (optional)
+    subtitle: OpenSLO is a service level objective (SLO) language that declaratively defines reliability and performance targets using a simple YAML specification. It is released under Apache 2.0 and we welcome contributions from the reliability engineering ecosystem. SLOs are reliability targets for services that allow organizations to make better decisions in how to create, operate, and run cloud services and applications. To learn more about SLOs, check out SLOconf.com.
+    # Button text
+    # buttontext: Get started
+    # Where the main hero button links to
+    buttonlink: "#"
+    # Hero image (from static/images/___)
+    image: square_logo.svg
+  # Customizable navbar. For a dropdown, add a "sublinks" list.
+  navbar:
+  - title: Get involved
+    url: https://www.github.com/openslo/openslo
+  - title: Oslo
+    url: https://www.github.com/openslo/olso
+  - title: Join our Slack
+    url: https://github.com/OpenSLO/OpenSLO/blob/initial-draft/CONTRIBUTING.md#slack
+  - title: Demo Video
+    url: https://tbd.com
+  section1:
+    title: OpenSLO
+    subtitle: Open Service Level Objective (SLO) Specification. Designed to make SLOs ergonomic to modern developer Git workflow.
+    tiles:
+    - title: Define SLOs as Code
+      icon: brackets
+      text: Create declarative definitions of SLOs that describe thresholds, metrics, and goals for your applications and infrastructure.
+    - title: Oslo Validation CLI
+      icon: terminal
+      text: Create simple automated GitOps workflows with any CI/CD tool that ensures your SLOs are correctly formatted. Just run oslo validate slos.yaml.
+    - title: Vendor Agnostic Metrics
+      icon: nodes
+      text: OpenSLO is designed to be implementation neutral and allow multiple vendors and other projects to describe and share SLOs in a well-defined format.
+      url: /
+  footer:
+    # Logo (from /images/logos/___)
+    logo: openslo_logo.svg
+    quicklinks:
+      column1:
+        title: "Core Contributors"
+        links:
+        - text: Ian Bartholomew
+          link: https://github.com/ian-bartholomew
+        - text: Niall Murphy
+          link: https://github.com/niallrmurphy
+        - text: Andrew Newdigate
+          link: https://github.com/suprememoocow
+        - text: Jürgen Etzlstorfer
+          link: https://github.com/jetzlstorfer
+        - text: Alex Nauda
+          link: https://github.com/alexnauda
