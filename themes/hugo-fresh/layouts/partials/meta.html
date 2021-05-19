@@ -1,4 +1,11 @@
-{{ template "_internal/google_analytics_async.html" . }}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JHW9RKJ3EZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JHW9RKJ3EZ');
+</script>
 {{ if eq .Site.Params.openGraph true }}
 {{ template "_internal/opengraph.html" . }}
 {{ end }}

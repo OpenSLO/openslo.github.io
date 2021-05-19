@@ -3,7 +3,7 @@ languageCode: en-us
 title: OpenSLO
 publishDir: docs/
 theme: hugo-fresh
-googleAnalytics: 272574964
+googleAnalytics: G-JHW9RKJ3EZ
 # Disables warnings
 disableKinds:
 - taxonomy
