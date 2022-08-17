@@ -21,7 +21,7 @@ jobs:
         run: hugo --minify
         working-directory: docs
 
-      - name: Deploy
+      - name: Publish
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
