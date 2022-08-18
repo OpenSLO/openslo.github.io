@@ -27,4 +27,12 @@ hugo new posts/{post-name}.md
 3. Please add in front matter variable called `cover` with value pointing to cover image of your post. You can link image or use one which should be placed in /assets directory. 
 4. Fill post with content
 5. If you finished your work change draft value to false
+
+Example front matter
+```yaml
+title: "Hello world!"
+date: 2022-08-18T13:00:42+02:00
+draft: false
+cover: /images/openslo_logo.svg
+```
 5. Thanks for your contribution! 
