@@ -3,6 +3,7 @@ languageCode: en-us
 title: OpenSLO
 theme: hugo-fresh
 googleAnalytics: G-JHW9RKJ3EZ
+summaryLength: 3
 # Disables warnings
 disableKinds:
 - taxonomy
@@ -37,6 +38,8 @@ params:
     image: square_logo.svg
   # Customizable navbar. For a dropdown, add a "sublinks" list.
   navbar:
+  - title: Blog
+    url: "/#blog"
   - title: Get involved
     url: https://www.github.com/openslo/openslo
   - title: Oslo
@@ -59,6 +62,8 @@ params:
       icon: nodes
       text: OpenSLO is designed to be implementation neutral and allow multiple vendors and other projects to describe and share SLOs in a well-defined format.
       url: /
+  sectionBlog:
+    title: Blog
   footer:
     # Logo (from /images/logos/___)
     logo: openslo_logo.svg
