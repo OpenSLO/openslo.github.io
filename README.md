@@ -24,7 +24,7 @@ Please follow while creating a new post on our blog:
 hugo new posts/{post-name}.md
 ```
 2. In path /content/posts you'll find your newly created file 
-3. Please add in front matter variable called `cover` with value pointing to cover image of your post. You can link image or use one which should be placed in /assets directory. 
+3. Please add in the front matter variable called `cover` with a value pointing to the cover image of your post. You can link an image or use one which should be placed in `/assets` directory. 
 4. Fill post with content
 5. If you finished your work change draft value to false
 
