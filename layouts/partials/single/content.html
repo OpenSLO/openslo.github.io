@@ -2,7 +2,7 @@
 <!--<img class="image" src="{{ $coverImg }}" alt="image placeholder" style="display: block;margin-left: auto;margin-right: auto; height: 350px">-->
 <section class="section is-medium">
     <div class="container">
-        <div style="font-size: 14px; padding-bottom: 20px;color:#484848">
+        <div class="date">
             {{.Date | time.Format ":date_long" }}
         </div>
         <div class="columns">
@@ -17,3 +17,11 @@
         </div>
     </div>
 </section>
+
+<style>
+    .date {
+        font-size: 14px;
+        padding-bottom: 20px;
+        color: #484848
+    }
+</style>
