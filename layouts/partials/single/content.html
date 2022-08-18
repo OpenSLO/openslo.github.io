@@ -1,0 +1,19 @@
+<!--{{ $coverImg := .Params.cover }}-->
+<!--<img class="image" src="{{ $coverImg }}" alt="image placeholder" style="display: block;margin-left: auto;margin-right: auto; height: 350px">-->
+<section class="section is-medium">
+    <div class="container">
+        <div style="font-size: 14px; padding-bottom: 20px;color:#484848">
+            {{.Date | time.Format ":date_long" }}
+        </div>
+        <div class="columns">
+            <div class="column is-centered-tablet-portrait">
+                <h1 class="title section-title">{{ .Title }}</h1>
+                <h5 class="subtitle is-5 is-muted">{{ .Params.Subtitle }}</h5>
+            </div>
+        </div>
+
+        <div class="content">
+            {{ .Content }}
+        </div>
+    </div>
+</section>

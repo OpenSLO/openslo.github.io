@@ -38,6 +38,8 @@ params:
     image: square_logo.svg
   # Customizable navbar. For a dropdown, add a "sublinks" list.
   navbar:
+  - title: Blog
+    url: "/#blog"
   - title: Get involved
     url: https://www.github.com/openslo/openslo
   - title: Oslo
