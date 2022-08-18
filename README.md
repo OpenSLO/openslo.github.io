@@ -15,7 +15,7 @@ The flow is the same as for regular contributions, review will be made in a PR.
 
 For something more complicated or when you are in doubt please create an issue first to gather feedback.
 
-## Creating blog post 
+## Creating a blog post 
 
 Please follow while creating a new post on our blog:
 
