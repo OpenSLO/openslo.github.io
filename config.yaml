@@ -76,3 +76,11 @@ params:
           link: https://github.com/jetzlstorfer
         - text: Alex Nauda
           link: https://github.com/alexnauda
+    socialmediatitle: Follow Us
+    socialmedia:
+    - link: https://github.com/OpenSLO
+      icon: github
+    - link: https://twitter.com/openslo_
+      icon: twitter
+    - link: https://join.slack.com/t/openslo/shared_invite/zt-1ecraohaa-fqj3C52WF~1zQbwKD8LeMw
+      icon: slack
