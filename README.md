@@ -26,7 +26,7 @@ hugo new posts/{post-name}.md
 2. In path /content/posts you'll find your newly created file 
 3. Please add in the front matter variable called `cover` with a value pointing to the cover image of your post. You can link an image or use one which should be placed in `/assets` directory. 
 4. Write your post
-5. If you finished your work change draft value to false
+5. If you finished your work change `draft` value to `false`
 
 Example front matter for the post
 ```yaml
