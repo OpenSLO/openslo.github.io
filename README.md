@@ -28,7 +28,7 @@ hugo new posts/{post-name}.md
 4. Write your post
 5. If you finished your work change draft value to false
 
-Example front matter
+Example front matter for the post
 ```yaml
 title: "Hello world!"
 date: 2022-08-18T13:00:42+02:00
