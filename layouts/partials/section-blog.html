@@ -1,0 +1,75 @@
+{{- $sectionBlog := .Site.Params.sectionBlog }}
+{{- $title    := index $sectionBlog "title" }}
+<section class="section">
+    <div class="container">
+        <div class="title-wrapper has-text-centered">
+            <h2 class="title is-2">{{ $title }}</h2>
+            <div class="divider is-centered"></div>
+        </div>
+
+        <div class="content-wrapper">
+            {{.Content}}
+            <div class="posts">
+                <div class="columns is-multiline is-gapless">
+                    {{range first 6 .Site.RegularPages}}
+                    <div class="column is-half">
+                        <div class="section" style="padding: 1.25rem 0.75rem;">
+                            <div class="card is-horizontal columns" style="background-color: #FAFAFA;">
+                                <!--width: 534px; height: 200px"-->
+                                <div class="card-image column is-half" style="padding: 0">
+                                        {{ $coverImg := .Params.cover }}
+                                        <img class="image is-4by3" src="{{ $coverImg }}" alt="image placeholder" style="padding-top: 0">
+                                </div>
+                                <div class="card-content column is-half">
+                                    <p class="date-text">{{.Date | time.Format ":date_long" }}</p>
+                                    <div class="centered">
+                                        <div class="media">
+                                            <div class="media-content">
+                                                <p class="title">{{.Title}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            {{.Summary}}..
+                                            <div class="field is-grouped is-grouped-multiline">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="learn-more" style="float: right ">
+                                        <a href="{{ .RelPermalink }}"><b>Learn More &rsaquo;</b></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .date-text {
+        text-align: end;
+        color: #484848;
+        font-size: 14px;
+    }
+
+    .title {
+        margin-top: 10px;
+        font-size: 16px;
+    }
+
+    .content {
+        color: #484848;
+        font-size: 14px;
+    }
+
+    .centered {
+        margin-top: 20px;
+    }
+
+    .learn-more {
+        margin-top: 20px;
+    }
+</style>
