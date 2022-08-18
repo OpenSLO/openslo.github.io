@@ -19,7 +19,7 @@ For something more complicated or when you are in doubt please create an issue f
 
 Please follow while creating a new post on our blog:
 
-1. Create file with name of post 
+1. Create a file with the name of the post 
 ```sh
 hugo new posts/{post-name}.md
 ```
