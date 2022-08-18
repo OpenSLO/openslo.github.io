@@ -1,7 +1,7 @@
 ---
 title: "Hello world!"
 date: 2022-08-18T13:00:42+02:00
-draft: false
+draft: true
 cover: /images/openslo_logo.svg
 ---
 First blog post on OpenSLO blog section. Here we will be posted all news and 
