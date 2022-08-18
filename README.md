@@ -17,7 +17,7 @@ For something more complicated or when you are in doubt please create an issue f
 
 ## Creating blog post 
 
-Please follow while creating new post on our blog:
+Please follow while creating a new post on our blog:
 
 1. Create file with name of post 
 ```sh
