@@ -39,7 +39,7 @@ params:
   # Customizable navbar. For a dropdown, add a "sublinks" list.
   navbar:
   - title: Blog
-    url: "/#blog"
+    url: /blog
   - title: Get involved
     url: https://www.github.com/openslo/openslo
   - title: Oslo

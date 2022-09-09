@@ -7,12 +7,9 @@
     {{ partial "section1.html" . }}
     {{ end }}
 
-    <div id="blog">
-        {{ if .Site.Params.sectionBlog }}
-        {{ partial "section-blog.html" . }}
-        {{ end }}
-    </div>
-
+    {{ if .Site.Params.sectionBlog }}
+    {{ partial "section-blog.html" . }}
+    {{ end }}
 
     {{ if .Site.Params.section2 }}
     {{ partial "section2.html" . }}
@@ -41,9 +38,4 @@
     {{ partial "sidebar.html" . }}
     {{ end }}
 
-<style>
-#blog{
-    padding-top:100px
-}
-</style>
 {{ end }}
