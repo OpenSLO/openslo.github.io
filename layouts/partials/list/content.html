@@ -1,0 +1,93 @@
+<head>
+    {{ partial "meta.html" . }}
+    <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
+    {{ partial "css.html" . }}
+</head>
+
+{{- $sectionBlog := .Site.Params.sectionBlog }}
+{{- $title    := index $sectionBlog "title" }}
+<section class="section">
+    <div class="container">
+        <div class="title-wrapper has-text-centered">
+            <h2 class="title is-2">{{ $title }}</h2>
+            <div class="divider is-centered"></div>
+        </div>
+
+        <div class="content-wrapper">
+            {{.Content}}
+            <div class="posts">
+                <div class="columns is-multiline is-gapless">
+                    {{range .Site.RegularPages}}
+                    <div class="column is-half">
+                        <div class="blog-section">
+                            <div class="card is-horizontal columns blog-card">
+                                <div class="card-image column is-half" style="padding: 0">
+                                    {{ $coverImg := .Params.cover }}
+                                    <img class="image is-4by3" src={{ $coverImg }} alt="image placeholder" style="padding-top: 0; width: 267px;height: 200px">
+                                </div>
+                                <div class="card-content column is-half">
+                                    <p class="date-text">{{.Date | time.Format ":date_long" }}</p>
+                                    <div class="centered">
+                                        <div class="media">
+                                            <div class="media-content">
+                                                <p class="title">{{.Title}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="content crop">
+                                            {{.Summary}}..
+                                            <div class="field is-grouped is-grouped-multiline">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="learn-more">
+                                        <a href="{{ .RelPermalink }}"><b>Learn More &rsaquo;</b></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .section{
+        min-height: calc(100vh - 4rem);
+    }
+    .blog-section{
+        padding: 1.25rem 0.75rem
+    }
+    .date-text {
+        text-align: end;
+        color: #484848;
+        font-size: 14px;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+
+    .content {
+        color: #484848;
+        font-size: 14px;
+    }
+
+    .centered {
+        margin-top: 20px;
+    }
+
+    .learn-more {
+        margin-top: 20px;
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        float: right
+    }
+    .blog-card{
+        background-color: #FAFAFA;
+        box-shadow: unset
+    }
+</style>
