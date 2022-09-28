@@ -1,14 +1,19 @@
 ---
 title: "SLOconf Talks"
 date: 2022-09-23T12:26:59+02:00
-draft: true
+draft: false
 author: "Filip Piwowarczyk"
 cover: /sloconf-talks/SLOconf_logo-01.svg
 ---
 In May 2022 another [SLOconf](https://www.sloconf.com/) took place, we want to share with you a few of the most interesting talks from that conference.
 If you want to find more of talks like that, here is the [playlist](https://www.youtube.com/playlist?list=PLLNq9CBV7AFwkXvYmjPPIQlRDVwTmacEK) with all [SLOconf](https://www.sloconf.com/) 2022 videos.
 
-
+### OpenSLO and alerting by Weyert de Boer
+Starting with talk about OpenSLO and alerting. It is good place to start to understand what is current position of OpenSLO. 
+{{< youtube iYVlmRp3L3I >}}
+### What is Reliability by Ian Bartholomew
+Understanding what is reliability of service and why it is important, gives us better understanding why we should use SLO.
+{{< youtube -7UewjezwL4 >}}
 ### SLOs for Everyone by Alex Hidalgo
 How we can understand the need for SLOs in a real life scenario and how to declare objectives based on that scenario.
 {{< youtube 0o3tR0d3gUw >}}
