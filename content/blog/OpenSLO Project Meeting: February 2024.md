@@ -18,7 +18,7 @@ During the meeting, several agenda items were discussed and decisions were made 
    Labels support is to be extended for all objects' metadata, including adding labels to Objective.
 
 3. **Oslo Conversion Removal**:
-   The decision was made to remove the conversion entirely and extend Oslo documentation on the usage of annotations for vendor-specific conversions. The focus will be on improving the SDK instead of expanding Oslo's responsibilities.
+   The decision was made to remove the conversion entirely and extend [oslo](https://github.com/openslo/oslo) documentation on the usage of annotations for vendor-specific conversions. The focus will be on improving the SDK instead of expanding [oslo's](https://github.com/openslo/oslo) responsibilities.
 
 4. **Action Items**:
    Several action items were noted, including documenting new use cases of OpenSLO, ensuring full Kubernetes compatibility, and considering bringing OpenSLO under CNCF's umbrella.
