@@ -7,7 +7,6 @@ summaryLength: 3
 # Disables warnings
 disableKinds:
 - taxonomy
-- taxonomyTerm
 markup:
   goldmark:
     renderer:
