@@ -23,7 +23,7 @@ During the meeting, several agenda items were discussed and decisions were made 
 4. **Action Items**:
    Several action items were noted, including documenting new use cases of OpenSLO, ensuring full Kubernetes compatibility, and considering bringing OpenSLO under CNCF's umbrella.
 
-The next meeting is scheduled for a month later. Precise date TBD.
+The next meeting is scheduled the next month. Precise date TBD.
 
 ### Meeting recording
 {{< youtube zxRa2sWz0Ag >}}
