@@ -17,7 +17,7 @@ During the meeting, several agenda items were discussed and decisions were made 
 2. **Labels Support**:
    Labels support is to be extended for all objects' metadata, including adding labels to Objective.
 
-3. **Conversion Removal**:
+3. **Oslo Conversion Removal**:
    The decision was made to remove the conversion entirely and extend Oslo documentation on the usage of annotations for vendor-specific conversions. The focus will be on improving the SDK instead of expanding Oslo's responsibilities.
 
 4. **Action Items**:
