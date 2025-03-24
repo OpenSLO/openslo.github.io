@@ -1,3 +1,4 @@
+/* Helps scale video iframes */
 /* Based on: https://github.com/squidfunk/mkdocs-material/issues/492#issuecomment-336640342 */
 .video-wrapper {
   position: relative;

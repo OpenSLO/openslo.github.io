@@ -1,6 +1,20 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+# Project information
 site_name: OpenSLO
 site_url: https://openslo.com
+site_description: >-
+  OpenSLO is a service level objective (SLO) language that declaratively defines
+  reliability and performance targets using a simple YAML specification.
+
+# Repository
+repo_url: https://github.com/OpenSLO/OpenSLO
+repo_name: OpenSLO
+
+# Copyright
+copyright: "&copy; 2025 The OpenSLO Contributors | Documentation Distributed under CC BY 4.0 | All Rights Reserved"
+
+# Configuration
 theme:
   name: material
   favicon: assets/images/favicon.png
@@ -13,30 +27,41 @@ theme:
     - navigation.instant.progress
     - search.highlight
     - search.share
-nav:
-  - Home: index.md
-  - About: about.md
-  - Blog:
-    - blog/index.md
+
+# Plugins
 plugins:
   - blog
   - search
+
+# Extensions
 markdown_extensions:
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
-extra_css:
-  - blog/extra.css
+  - pymdownx.blocks.caption
+  - md_in_html
+
+# Additional configuration
 extra:
   generator: false
   social:
     - icon: fontawesome/brands/slack
       link: https://join.slack.com/t/openslo/shared_invite/zt-1ecraohaa-fqj3C52WF~1zQbwKD8LeMw
-    - icon: fontawesome/brands/github 
+    - icon: fontawesome/brands/github
       link: https://github.com/OpenSLO/OpenSLO
     - icon: fontawesome/brands/twitter
       link: https://twitter.com/openslo_
-repo_url: https://github.com/OpenSLO/OpenSLO
-repo_name: OpenSLO
-copyright: "&copy; 2025 The OpenSLO Contributors | Documentation Distributed under CC BY 4.0 | All Rights Reserved"
+
+# Additional styles
+extra_css:
+  - extra.css
+
+# Navigation tree
+nav:
+  - Home: index.md
+  - Specification: specification.md
+  - API: api.md
+  - Tools: tools.md
+  - Blog:
+      - blog/index.md

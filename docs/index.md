@@ -1,17 +1,74 @@
-# Welcome to MkDocs
+---
+hide:
+  - navigation
+  - toc
+  - path
+---
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+![OpenSLO Logo](assets/images/openslo_logo.svg)
+/// caption
+<p style="text-align: center; color: gray; font-size: 1.0rem; line-height: 1.2;">
+  Open Service Level Objective (SLO) Specification.<br>
+  Designed to make SLOs ergonomic to modern<br>
+  developer Git workflow.
+</p>
+///
 
-## Commands
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+# What is OpenSLO?
 
-## Project layout
+OpenSLO is a service level objective (SLO) language that declaratively defines
+reliability and performance targets using a simple YAML specification.<br>
+It is released under Apache 2.0 and we welcome contributions
+from the reliability engineering ecosystem.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+SLOs are reliability targets for services that allow organizations to make
+better decisions in how to create, operate,
+and run cloud services and applications.<br>
+To learn more about SLOs, check out [SLOconf.com](https://sloconf.com/).
+
+<div class="grid cards" markdown>
+
+- <p align="center">
+    <img src="assets/images/illustrations/icons/brackets.svg" width="50%">
+  </p>
+
+    <p style="text-align: center;">
+      __Define SLOs as Code__
+    </p>
+
+    ---
+
+    Create declarative definitions of SLOs that describe thresholds, metrics, and goals for your applications and infrastructure.
+
+    [:octicons-arrow-right-24: Getting started](#)
+
+- <p align="center">
+    <img src="assets/images/illustrations/icons/terminal.svg" width="50%">
+  </p>
+
+    <p style="text-align: center;">
+      __Oslo Validation CLI__
+    </p>
+
+    ---
+
+    Create simple automated GitOps workflows with any CI/CD tool that ensures your SLOs are correctly formatted. Just run oslo validate slos.yaml.
+
+    [:octicons-arrow-right-24: Reference](#)
+
+- <p align="center">
+    <img src="assets/images/illustrations/icons/nodes.svg" width="50%">
+  </p>
+
+    <p style="text-align: center;">
+      __Vendor Agnostic Metrics__
+    </p>
+
+    ---
+
+    OpenSLO is designed to be implementation neutral and allow multiple vendors and other projects to describe and share SLOs in a well-defined format.
+
+    [:octicons-arrow-right-24: Customization](#)
+
+</div>

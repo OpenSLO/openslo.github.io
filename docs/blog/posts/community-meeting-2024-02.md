@@ -5,6 +5,8 @@ draft: false
 authors: 
   - Pawel Rusakiewicz
 cover: /images/openslo_logo.svg
+categories:
+  - Meetings
 ---
 
 First community meeting in 2024 :tada:
