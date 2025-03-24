@@ -61,7 +61,11 @@ extra_css:
 nav:
   - Home: index.md
   - Specification: specification.md
-  - API: api.md
+  - API: 
+    - api.md
+    - v1alpha: api/v1alpha.md
+    - v1: api/v1.md
+    - v2alpha: api/v2alpha.md
   - Tools: tools.md
   - Blog:
       - blog/index.md
