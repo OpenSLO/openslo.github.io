@@ -27,6 +27,7 @@ theme:
     - navigation.instant.progress
     - search.highlight
     - search.share
+    - content.code.copy
 
 # Plugins
 plugins:
@@ -35,12 +36,24 @@ plugins:
 
 # Extensions
 markdown_extensions:
+  - tables
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.blocks.caption
   - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
 
 # Additional configuration
 extra:
@@ -64,7 +77,9 @@ nav:
   - API: 
     - api.md
     - v1alpha: api/v1alpha.md
-    - v1: api/v1.md
+    - v1: 
+      - api/v1.md
+      - Service: api/v1/service.md
     - v2alpha: api/v2alpha.md
   - Tools: tools.md
   - Blog:
