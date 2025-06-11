@@ -1,0 +1,37 @@
+{%- for property in properties -%}
+{%- if property.name in ["metadata", "spec"] -%}
+### {{ property.name }}
+
+{%- else -%}
+{%- if property.name.startswith("metadata.") or property.name.startswith("spec.") -%}
+#### {{ property.name }}
+{%- else -%}
+### {{ property.name }}
+{%- endif %}
+
+Type: {{ property.type_display }}
+
+{%- if property.is_optional %}
+
+*Optional*
+{%- endif %}
+
+{%- if property.description %}
+
+{{ property.description }}
+{%- endif %}
+
+{%- if property.rules_table %}
+
+{{ property.rules_table }}
+{%- endif %}
+
+{%- if property.examples %}
+
+Examples:
+
+{{ property.examples }}
+{%- endif %}
+{%- endif %}
+
+{% endfor %}

@@ -1,0 +1,207 @@
+{
+  "openslo/v1": {
+    "Service": {
+      "properties": [
+        {
+          "path": "$",
+          "typeInfo": {
+            "name": "Service",
+            "kind": "struct",
+            "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+          },
+          "childrenPaths": [
+            "$.apiVersion",
+            "$.kind",
+            "$.metadata",
+            "$.spec"
+          ]
+        },
+        {
+          "path": "$.apiVersion",
+          "typeInfo": {
+            "name": "Version",
+            "kind": "string",
+            "package": "github.com/OpenSLO/go-sdk/pkg/openslo"
+          },
+          "rules": [
+            {
+              "description": "should be equal to 'openslo/v1'",
+              "errorCode": "equal_to"
+            }
+          ],
+          "typeDoc": "Version represents a version of the OpenSLO specification."
+        },
+        {
+          "path": "$.kind",
+          "typeInfo": {
+            "name": "Kind",
+            "kind": "string",
+            "package": "github.com/OpenSLO/go-sdk/pkg/openslo"
+          },
+          "rules": [
+            {
+              "description": "should be equal to 'Service'",
+              "errorCode": "equal_to"
+            }
+          ],
+          "typeDoc": "Kind represents all the object kinds defined by OpenSLO specification. Keep in mind not all specification versions support every [Kind](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo#Kind)."
+        },
+        {
+          "path": "$.metadata",
+          "typeInfo": {
+            "name": "Metadata",
+            "kind": "struct",
+            "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+          },
+          "childrenPaths": [
+            "$.metadata.name",
+            "$.metadata.displayName",
+            "$.metadata.labels",
+            "$.metadata.annotations"
+          ]
+        },
+        {
+          "path": "$.metadata.name",
+          "typeInfo": {
+            "name": "string",
+            "kind": "string"
+          },
+          "rules": [
+            {
+              "description": "length must be between 1 and 63",
+              "errorCode": "string_dns_label:string_length"
+            },
+            {
+              "description": "string must match regular expression: '^[a-z0-9]([-a-z0-9]*[a-z0-9])?$'",
+              "details": "an RFC-1123 compliant label name must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character",
+              "errorCode": "string_dns_label:string_match_regexp",
+              "examples": [
+                "my-name",
+                "123-abc"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "$.metadata.displayName",
+          "typeInfo": {
+            "name": "string",
+            "kind": "string"
+          },
+          "isOptional": true,
+          "rules": [
+            {
+              "description": "length must be less than or equal to 63",
+              "errorCode": "string_max_length"
+            }
+          ]
+        },
+        {
+          "path": "$.metadata.labels",
+          "typeInfo": {
+            "name": "Labels",
+            "kind": "map",
+            "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+          },
+          "childrenPaths": [
+            "$.metadata.labels.~",
+            "$.metadata.labels.*",
+            "$.metadata.labels.*[*]"
+          ]
+        },
+        {
+          "path": "$.metadata.labels.~",
+          "typeInfo": {
+            "name": "string",
+            "kind": "string"
+          },
+          "rules": [
+            {
+              "description": "string must match regular expression: '^[a-zA-Z0-9]([-._a-zA-Z0-9]{0,61}[a-zA-Z0-9])?$'",
+              "errorCode": "string_match_regexp"
+            }
+          ]
+        },
+        {
+          "path": "$.metadata.labels.*",
+          "typeInfo": {
+            "name": "Label",
+            "kind": "slice",
+            "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+          }
+        },
+        {
+          "path": "$.metadata.labels.*[*]",
+          "typeInfo": {
+            "name": "string",
+            "kind": "string"
+          }
+        },
+        {
+          "path": "$.metadata.annotations",
+          "typeInfo": {
+            "name": "Annotations",
+            "kind": "map",
+            "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+          },
+          "childrenPaths": [
+            "$.metadata.annotations.~",
+            "$.metadata.annotations.*"
+          ]
+        },
+        {
+          "path": "$.metadata.annotations.~",
+          "typeInfo": {
+            "name": "string",
+            "kind": "string"
+          },
+          "rules": [
+            {
+              "description": "string must match regular expression: '^(.{0,253}/)?.{0,63}$'",
+              "errorCode": "string_match_regexp"
+            },
+            {
+              "description": "string must match regular expression: '^([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?)*/)?[a-zA-Z0-9]([-._a-zA-Z0-9]{0,61}[a-zA-Z0-9])?$'",
+              "errorCode": "string_match_regexp",
+              "examples": [
+                "my-domain.org/my-key",
+                "openslo.com/annotation"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "$.metadata.annotations.*",
+          "typeInfo": {
+            "name": "string",
+            "kind": "string"
+          }
+        },
+        {
+          "path": "$.spec",
+          "typeInfo": {
+            "name": "ServiceSpec",
+            "kind": "struct",
+            "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+          },
+          "childrenPaths": [
+            "$.spec.description"
+          ]
+        },
+        {
+          "path": "$.spec.description",
+          "typeInfo": {
+            "name": "string",
+            "kind": "string"
+          },
+          "rules": [
+            {
+              "description": "length must be less than or equal to 1050",
+              "errorCode": "string_max_length"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

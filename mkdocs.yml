@@ -33,6 +33,7 @@ theme:
 plugins:
   - blog
   - search
+  - macros
 
 # Extensions
 markdown_extensions:
