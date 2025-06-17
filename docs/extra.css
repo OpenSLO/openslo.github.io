@@ -17,3 +17,23 @@
   height: 100%;
   border: 0;
 }
+
+/* Prevent wrapping in Examples column */
+.examples-header {
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.examples-cell {
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.examples-cell ul {
+  margin: 0;
+  padding-left: 1em;
+}
+
+.examples-cell li {
+  white-space: nowrap;
+}

@@ -12,18 +12,13 @@ Multiple SLOs can refer to the same Service.
     apiVersion: openslo/v1
     kind: Service
     metadata:
-      labels:
-        env:
-          - prod
-        team:
-          - team-a
-          - team-b
       name: example-service
+      displayName: Example Service
     spec:
       description: Example service description
     ```
 
-=== "Annotations"
+=== "Full"
 
     ```yaml
     apiVersion: openslo/v1
@@ -38,6 +33,7 @@ Multiple SLOs can refer to the same Service.
           - team-a
           - team-b
       name: example-service
+      displayName: Example Service
     spec:
       description: Example service description
     ```

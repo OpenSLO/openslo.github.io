@@ -1,29 +1,64 @@
 {%- for property in properties -%}
-{%- if property.name in ["metadata", "spec"] -%}
-### {{ property.name }}
+{%- if property.path in ["metadata", "spec"] -%}
+### {{ property.path }}
 
 {%- else -%}
-{%- if property.name.startswith("metadata.") or property.name.startswith("spec.") -%}
-#### {{ property.name }}
+{%- if property.path.startswith("metadata.") or property.path.startswith("spec.") -%}
+#### {{ property.path }}
 {%- else -%}
-### {{ property.name }}
+### {{ property.path }}
 {%- endif %}
 
-Type: {{ property.type_display }}
+Type: `{{ property.typeInfo.kind }}`
 
-{%- if property.is_optional %}
+{%- if property.isOptional %}
 
 *Optional*
 {%- endif %}
 
-{%- if property.description %}
+{%- if property.typeDoc %}
 
-{{ property.description }}
+{{ property.typeDoc }}
 {%- endif %}
 
-{%- if property.rules_table %}
+{%- if property.rules and property.rules|length > 0 %}
+{%- set has_details = property.rules | selectattr("details") | list | length > 0 %}
+{%- set has_examples = property.rules | selectattr("examples") | list | length > 0 %}
 
-{{ property.rules_table }}
+<table>
+  <thead>
+    <tr>
+      <th>Rules</th>
+      {%- if has_details %}
+      <th>Details</th>
+      {%- endif %}
+      {%- if has_examples %}
+      <th style="white-space: nowrap;">Examples</th>
+      {%- endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {%- for rule in property.rules %}
+    <tr>
+      <td>{{ rule.description }}</td>
+      {%- if has_details %}
+      <td>{{ rule.details or "" }}</td>
+      {%- endif %}
+      {%- if has_examples %}
+      <td style="white-space: nowrap; vertical-align: top;">
+        {%- if rule.examples %}
+        <ul>
+          {%- for example in rule.examples %}
+          <li><code>{{ example }}</code></li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
+      </td>
+      {%- endif %}
+    </tr>
+    {%- endfor %}
+  </tbody>
+</table>
 {%- endif %}
 
 {%- if property.examples %}

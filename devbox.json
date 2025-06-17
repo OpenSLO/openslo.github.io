@@ -2,7 +2,8 @@
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.7/.schema/devbox.schema.json",
   "packages": [
     "python@3.13",
-    "python313Packages.pip@latest"
+    "python313Packages.pip@latest",
+    "ruff@0.11.13"
   ],
   "shell": {
     "init_hook": [
