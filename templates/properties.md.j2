@@ -1,72 +1,81 @@
 {%- for property in properties -%}
-{%- if property.path in ["metadata", "spec"] -%}
-### {{ property.path }}
-
+{%- if "." not in property.path -%}
+{%- if property.linkTo -%}
+### [`{{ property.path }}`]({{ property.linkTo }})
 {%- else -%}
-{%- if property.path.startswith("metadata.") or property.path.startswith("spec.") -%}
-#### {{ property.path }}
+### `{{ property.path }}`
+{%- endif -%}
 {%- else -%}
-### {{ property.path }}
+{%- if property.linkTo -%}
+#### [`{{ property.path }}`]({{ property.linkTo }})
+{%- else -%}
+#### `{{ property.path }}`
+{%- endif -%}
 {%- endif %}
 
-Type: `{{ property.typeInfo.kind }}`
-
-{%- if property.isOptional %}
-
-*Optional*
-{%- endif %}
+??? property "<span class='property-type-badge'>{{ property.typeInfo.kind }}</span>{%- if property.required %} <span class='property-status-badge'>required</span>{%- endif %}"
 
 {%- if property.typeDoc %}
 
-{{ property.typeDoc }}
+    {{ property.typeDoc }}
 {%- endif %}
 
 {%- if property.rules and property.rules|length > 0 %}
+
+    ---
+
+    **Validation Rules**
+
 {%- set has_details = property.rules | selectattr("details") | list | length > 0 %}
 {%- set has_examples = property.rules | selectattr("examples") | list | length > 0 %}
 
-<table>
-  <thead>
-    <tr>
-      <th>Rules</th>
-      {%- if has_details %}
-      <th>Details</th>
-      {%- endif %}
-      {%- if has_examples %}
-      <th style="white-space: nowrap;">Examples</th>
-      {%- endif %}
-    </tr>
-  </thead>
-  <tbody>
-    {%- for rule in property.rules %}
-    <tr>
-      <td>{{ rule.description }}</td>
-      {%- if has_details %}
-      <td>{{ rule.details or "" }}</td>
-      {%- endif %}
-      {%- if has_examples %}
-      <td style="white-space: nowrap; vertical-align: top;">
-        {%- if rule.examples %}
-        <ul>
-          {%- for example in rule.examples %}
-          <li><code>{{ example }}</code></li>
-          {%- endfor %}
-        </ul>
-        {%- endif %}
-      </td>
-      {%- endif %}
-    </tr>
-    {%- endfor %}
-  </tbody>
-</table>
+    <table>
+      <thead>
+        <tr>
+          <th>Rule</th>
+          {%- if has_details %}
+          <th>Details</th>
+          {%- endif %}
+          {%- if has_examples %}
+          <th style="white-space: nowrap;">Examples</th>
+          {%- endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for rule in property.rules %}
+          {%- if rule.examples and rule.examples|length > 0 %}
+            {%- for example in rule.examples %}
+        <tr>
+              {%- if loop.first %}
+          <td rowspan="{{ rule.examples|length }}">{{ rule.description }}</td>
+                {%- if has_details %}
+          <td rowspan="{{ rule.examples|length }}">{{ rule.details or "" }}</td>
+                {%- endif %}
+              {%- endif %}
+          <td style="white-space: nowrap; vertical-align: top;"><code>{{ example }}</code></td>
+        </tr>
+            {%- endfor %}
+          {%- else %}
+        <tr>
+          <td>{{ rule.description }}</td>
+            {%- if has_details %}
+          <td>{{ rule.details or "" }}</td>
+            {%- endif %}
+            {%- if has_examples %}
+          <td style="white-space: nowrap; vertical-align: top;"></td>
+            {%- endif %}
+        </tr>
+          {%- endif %}
+        {%- endfor %}
+      </tbody>
+    </table>
 {%- endif %}
 
 {%- if property.examples %}
 
-Examples:
+    Examples:
 
-{{ property.examples }}
-{%- endif %}
+    {{ property.examples }}
 {%- endif %}
 
 {% endfor %}

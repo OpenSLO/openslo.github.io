@@ -39,6 +39,7 @@ plugins:
 markdown_extensions:
   - tables
   - attr_list
+  - admonition
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -50,11 +51,19 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - pymdownx.saneheaders
+  - pymdownx.magiclink
   - pymdownx.tabbed:
       alternate_style: true
   - toc:
       permalink: true
+  - def_list
 
 # Additional configuration
 extra:
@@ -75,13 +84,16 @@ extra_css:
 nav:
   - Home: index.md
   - Specification: specification.md
-  - API: 
-    - api.md
-    - v1alpha: api/v1alpha.md
-    - v1: 
-      - api/v1.md
-      - Service: api/v1/service.md
-    - v2alpha: api/v2alpha.md
+  - Schema:
+    - schema.md
+    - v1alpha: schema/v1alpha.md
+    - v1:
+      - v1: schema/v1.md
+      - Service: schema/v1/service.md
+      - SLI: schema/v1/sli.md
+      - SLO: schema/v1/slo.md
+      - Test: schema/v1/test.md
+    - v2alpha: schema/v2alpha.md
   - Tools: tools.md
   - Blog:
       - blog/index.md

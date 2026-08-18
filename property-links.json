@@ -1,0 +1,28 @@
+{
+  "openslo/v1": {
+    "_common": {
+      "metadata": {
+        "link": "../v1.md#metadata",
+        "template": "The metadata section containing identifying information for the object. See [`{{ path }}`]({{ link }}) reference for complete documentation of this common property."
+      }
+    },
+    "SLO": {
+      "spec.indicator": {
+        "link": "sli.md#spec",
+        "template": "Inline SLI (Service Level Indicator) definition. See [`{{ path }}`]({{ link }}) reference for complete documentation of inline indicator properties."
+      }
+    },
+    "AlertCondition": {},
+    "AlertNotificationTarget": {},
+    "AlertPolicy": {},
+    "DataSource": {},
+    "SLI": {},
+    "Service": {}
+  },
+  "openslo/v1alpha": {
+    "_common": {}
+  },
+  "openslo.com/v2alpha": {
+    "_common": {}
+  }
+}

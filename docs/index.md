@@ -48,12 +48,12 @@ To learn more about SLOs, check out [SLOconf.com](https://sloconf.com/).
   </p>
 
     <p style="text-align: center;">
-      __Oslo Validation CLI__
+      __Oslo CLI__
     </p>
 
     ---
 
-    Create simple automated GitOps workflows with any CI/CD tool that ensures your SLOs are correctly formatted. Just run oslo validate slos.yaml.
+    Create simple automated GitOps workflows with any CI/CD tool that ensures your SLOs are correctly formatted. Just run `oslo validate slos.yaml`.
 
     [:octicons-arrow-right-24: Reference](#)
 
