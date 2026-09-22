@@ -7,12 +7,14 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urljoin, urlsplit
 
 import markdown
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SDK_DOCS = "https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo"
+SYMBOL_EXAMPLE = f"[AlertPolicy]({SDK_DOCS}/v1#AlertPolicy)"
 MULTILINE_EXAMPLE = (
     "line1\nline2\n\nline4\n  nested: true\n**literal**\n```text\nfence\n```"
 )
@@ -131,21 +133,32 @@ class SchemaBuildTests(unittest.TestCase):
                 {
                     "path": "$",
                     "typeInfo": {"name": "Probe", "kind": "struct"},
-                    "typeDoc": "Probe exercises schema documentation.",
+                    "typeDoc": f"Probe exercises schema documentation. See {SYMBOL_EXAMPLE}.",
                     "rules": [{"description": "check the whole object"}],
                 },
                 {
                     "path": "$.mode",
                     "typeInfo": {"name": "string", "kind": "string"},
-                    "fieldDoc": "First paragraph.\n\nSecond paragraph.\n\n- First item\n- Second item",
-                    "typeDoc": "The mode type.",
-                    "deprecatedDoc": "Use the replacement mode.",
+                    "fieldDoc": (
+                        "First paragraph.\n\nSecond paragraph.\n\n- First item\n- Second item\n\n"
+                        f"See [v2 SLO]({SDK_DOCS}/v2alpha#SLO), "
+                        "[Duration](https://pkg.go.dev/time#Duration), "
+                        f"and [Unknown]({SDK_DOCS}/v1#Unknown)."
+                    ),
+                    "typeDoc": (
+                        "The mode type. See [Metadata][metadata].\n\n"
+                        f"[metadata]: {SDK_DOCS}/v1#Metadata"
+                    ),
+                    "deprecatedDoc": (
+                        f"Use the [replacement mode]({SDK_DOCS}/v1#SLOObjective.Operator)."
+                    ),
                     "isHidden": True,
                     "values": ["true", "0", "<low|high>"],
                     "examples": [
                         "<script>alert(1)</script>",
                         '{"active":true}',
                         MULTILINE_EXAMPLE,
+                        SYMBOL_EXAMPLE,
                     ],
                     "rules": [
                         {
@@ -177,6 +190,14 @@ class SchemaBuildTests(unittest.TestCase):
                 },
             ],
         }
+        metadata = next(
+            prop
+            for prop in cls.api["openslo/v1"]["Service"]["properties"]
+            if prop["path"] == "$.metadata"
+        )
+        metadata["fieldDoc"] = (
+            metadata.get("fieldDoc", "") + f"\n\nSee {SYMBOL_EXAMPLE}."
+        )
         (cls.project / "api.json").write_text(json.dumps(cls.api))
         links_file = cls.project / "property-links.json"
         links = json.loads(links_file.read_text())
@@ -257,6 +278,10 @@ class SchemaBuildTests(unittest.TestCase):
         for path, page in pages.items():
             self.assertEqual(len(page.ids), len(set(page.ids)), path)
             for link in page.links:
+                self.assertFalse(
+                    link.startswith(SDK_DOCS) and link != f"{SDK_DOCS}/v1#Unknown",
+                    f"{path}: {link}",
+                )
                 parts = urlsplit(link)
                 if parts.scheme or parts.netloc or parts.path.startswith("/"):
                     continue
@@ -276,6 +301,28 @@ class SchemaBuildTests(unittest.TestCase):
                         targets[target].ids,
                         f"{path}: {link}",
                     )
+
+    def test_sdk_symbol_links_use_website_pages_and_preserve_code_examples(self):
+        probe = self.page("schema/v1/probe/index.html")
+        self.assertIn("../alertpolicy/", probe.sections["Probe"]["links"])
+        links = probe.sections["mode"]["links"]
+        self.assertIn("../../v2alpha/slo/", links)
+        self.assertIn("../#metadata", links)
+        self.assertIn("../slo/#spec-objectives-items-op", links)
+        self.assertIn("https://pkg.go.dev/time#Duration", links)
+        self.assertIn(f"{SDK_DOCS}/v1#Unknown", links)
+        self.assertIn(SYMBOL_EXAMPLE + "\n", probe.code_blocks)
+        for version in ("v1alpha", "v1", "v2alpha"):
+            with self.subTest(version=version):
+                service = self.page(f"schema/{version}/service/index.html")
+                self.assertIn("../#objects", service.sections["kind"]["links"])
+        overview = self.page("schema/v1/index.html")
+        self.assertIn("alertpolicy/", overview.sections["metadata"]["links"])
+        condition = self.page("schema/v2alpha/alertcondition/index.html")
+        self.assertIn(
+            "../alertpolicy/#spec-alertwhenbreaching",
+            condition.sections["AlertCondition"]["links"],
+        )
 
     def test_conditional_requiredness_tables_and_literals(self):
         page = self.page("schema/v1/alertcondition/index.html")
@@ -407,6 +454,14 @@ class SchemaBuildTests(unittest.TestCase):
     def test_repeated_render_preserves_rules_and_links(self):
         original = self.page("schema/v1/service/index.html")
         repeated = self.page("schema/v1/repeated/index.html")
+        for kind, page in (("service", original), ("repeated", repeated)):
+            for section in page.sections.values():
+                section["links"] = [
+                    link
+                    if link.startswith("#")
+                    else urljoin(f"/schema/v1/{kind}/", link)
+                    for link in section["links"]
+                ]
         self.assertEqual(original.sections, repeated.sections)
 
 

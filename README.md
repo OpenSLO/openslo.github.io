@@ -56,4 +56,17 @@ This keeps standalone objects complete while their inline uses link to them.
 
 Inline alert wrappers retain fields such as `conditionRef` and `targetRef`.
 Their `spec` properties link to the standalone specifications.
+
+The generator also converts govydoc's `pkg.go.dev` symbol links to website links.
+Object names use their generated pages, and shared types use `_types` targets.
+Each version can add `_symbols` entries for fields, constants, and other types.
+For example, `"SLOObjective.Operator": "slo.md#spec-objectives-items-op"` links
+the Go field to its schema property.
+Symbol names refer to the version's SDK package.
+Use `package/import/path#Symbol` for symbols from another package.
+Targets are relative to the version's object directory, as in `_types`.
+These entries override inferred targets and do not collapse property definitions.
+Links without a website target keep their original URLs.
+Code examples remain unchanged.
+
 Do not edit generated HTML under `site/`.

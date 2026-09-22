@@ -1,10 +1,13 @@
 import argparse
 import json
 from pathlib import Path
+import posixpath
 import re
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urlunsplit
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
+from markdown.extensions import Extension
+from markdown.treeprocessors import Treeprocessor
 from markupsafe import Markup, escape
 from pydantic import BaseModel, Field, TypeAdapter
 
@@ -133,6 +136,7 @@ class SchemaDocumentation:
         self.links = json.loads(
             (ROOT / "property-links.json").read_text(encoding="utf-8")
         )
+        self.symbol_links = self.build_symbol_links()
         self.templates = Environment(
             loader=FileSystemLoader(ROOT / "templates"),
             undefined=StrictUndefined,
@@ -155,6 +159,66 @@ class SchemaDocumentation:
             return self.api[version][kind]
         except KeyError as error:
             raise ValueError(f"Unknown schema object: {version}/{kind}") from error
+
+    def build_symbol_links(self):
+        targets = {}
+        for version, objects in self.api.items():
+            slug = self.version_slug(version)
+            version_links = self.links.get(version, {})
+            packages = set()
+            symbols = {}
+            for kind, schema in objects.items():
+                root = next(prop for prop in schema.properties if prop.path == "$")
+                if root.typeInfo.package:
+                    packages.add(root.typeInfo.package)
+                    symbols[f"{root.typeInfo.package}#{root.typeInfo.name}"] = (
+                        f"{kind.lower()}.md"
+                    )
+                for prop in schema.properties:
+                    reference = version_links.get("_types", {}).get(prop.typeInfo.name)
+                    if reference and prop.typeInfo.package:
+                        symbols[f"{prop.typeInfo.package}#{prop.typeInfo.name}"] = (
+                            reference["link"]
+                        )
+            for symbol, link in version_links.get("_symbols", {}).items():
+                if "#" in symbol:
+                    symbols[symbol] = link
+                else:
+                    for package in packages:
+                        symbols[f"{package}#{symbol}"] = link
+            for symbol, link in symbols.items():
+                target = urlsplit(link)
+                targets.setdefault(symbol, {})[slug] = target._replace(
+                    path=posixpath.normpath(f"schema/{slug}/{target.path}")
+                )
+        return targets
+
+    def symbol_link(self, url: str, source_path: str):
+        parts = urlsplit(url)
+        if parts.netloc != "pkg.go.dev":
+            return url
+        targets = self.symbol_links.get(
+            f"{parts.path.lstrip('/')}#{parts.fragment}", {}
+        )
+        slug = next(
+            (
+                slug
+                for slug in targets
+                if source_path == f"schema/{slug}.md"
+                or source_path.startswith(f"schema/{slug}/")
+            ),
+            None,
+        )
+        target = targets.get(slug)
+        if target is None and len(set(targets.values())) == 1:
+            target = next(iter(targets.values()))
+        if target is None:
+            return url
+        return urlunsplit(
+            target._replace(
+                path=posixpath.relpath(target.path, posixpath.dirname(source_path))
+            )
+        )
 
     def object_description(self, version: str, kind: str):
         schema = self.object_schema(version, kind)
@@ -224,6 +288,33 @@ class SchemaDocumentation:
             f"- [`{version}`](schema/{self.version_slug(version)}.md)"
             for version in self.api
         )
+
+
+class SchemaLinksExtension(Extension):
+    def __init__(self, schema: SchemaDocumentation):
+        super().__init__()
+        self.schema = schema
+        self.source_path = ""
+
+    def extendMarkdown(self, md):
+        # Resolve symbols before MkDocs validates and rewrites relative links.
+        md.treeprocessors.register(
+            SchemaLinksTreeprocessor(md, self.schema, self.source_path),
+            "schema_links",
+            1,
+        )
+
+
+class SchemaLinksTreeprocessor(Treeprocessor):
+    def __init__(self, md, schema: SchemaDocumentation, source_path: str):
+        super().__init__(md)
+        self.schema = schema
+        self.source_path = source_path
+
+    def run(self, root):
+        for element in root.iter("a"):
+            if (url := element.get("href")) is not None:
+                element.set("href", self.schema.symbol_link(url, self.source_path))
 
 
 def main():

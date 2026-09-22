@@ -1,6 +1,6 @@
 from mkdocs.structure.files import File
 
-from schema import SchemaDocumentation
+from schema import SchemaDocumentation, SchemaLinksExtension
 
 
 def define_env(env):
@@ -13,6 +13,11 @@ def define_env(env):
 
 def on_files(files, config):
     schema = SchemaDocumentation()
+    config.markdown_extensions = [
+        extension
+        for extension in config.markdown_extensions
+        if not isinstance(extension, SchemaLinksExtension)
+    ] + [SchemaLinksExtension(schema)]
     navigation = ["schema.md"]
     for version, objects in schema.api.items():
         slug = schema.version_slug(version)
@@ -51,3 +56,9 @@ def on_files(files, config):
     else:
         raise ValueError("The MkDocs navigation must contain a Schema section")
     return files
+
+
+def on_page_markdown(markdown, page, config, files):
+    for extension in config.markdown_extensions:
+        if isinstance(extension, SchemaLinksExtension):
+            extension.source_path = page.file.src_uri
