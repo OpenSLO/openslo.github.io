@@ -110,7 +110,7 @@ prescriptive stance on this issue.
 
 A DataSource represents connection details with a particular metric source.
 
-> [Check work in progress for v2.](enhancements/v2alpha.md#datasource)
+> [See the v2alpha DataSource reference.](schema/v2alpha/datasource.md)
 
 ```yaml
 apiVersion: openslo/v1
@@ -157,7 +157,7 @@ spec:
 A service level objective (SLO) is a target value or a range of values for
 a service level that is described by a service level indicator (SLI).
 
-> [Check work in progress for v2.](enhancements/v2alpha.md#slo)
+> [See the v2alpha SLO reference.](schema/v2alpha/slo.md)
 
 ```yaml
 apiVersion: openslo/v1
@@ -309,7 +309,7 @@ impact:
 
 A service level indicator (SLI) represents how to read metrics from data sources.
 
-> [Check work in progress for v2.](enhancements/v2alpha.md#sli)
+> [See the v2alpha SLI reference.](schema/v2alpha/sli.md)
 
 ```yaml
 apiVersion: openslo/v1

@@ -1,81 +1,51 @@
-{%- for property in properties -%}
-{%- if "." not in property.path -%}
-{%- if property.linkTo -%}
-### [`{{ property.path }}`]({{ property.linkTo }})
-{%- else -%}
-### `{{ property.path }}`
-{%- endif -%}
-{%- else -%}
-{%- if property.linkTo -%}
-#### [`{{ property.path }}`]({{ property.linkTo }})
-{%- else -%}
-#### `{{ property.path }}`
-{%- endif -%}
-{%- endif %}
+{% from "rules.md.j2" import render_rules %}
+{% for property in properties %}
+{% if property.path == "$" %}
+{% if property.rules %}
+### Object validation
 
-??? property "<span class='property-type-badge'>{{ property.typeInfo.kind }}</span>{%- if property.required %} <span class='property-status-badge'>required</span>{%- endif %}"
+{{ render_rules(property.rules) }}
+{% endif %}
+{% else %}
+{% set heading = "###" if "." not in property.display_path else "####" %}
+{% set reference = links.get(property.path) %}
+{{ heading }} {% if reference %}[`{{ property.display_path }}`]({{ reference.url }}){% else %}`{{ property.display_path }}`{% endif %} { #{{ property.anchor }} }
 
-{%- if property.typeDoc %}
+??? property "<span class='property-type-badge'>{{ property.typeInfo.kind | e }}</span>{% if property.required %} <span class='property-status-badge'>required</span>{% elif property.conditionally_required %} <span class='property-status-badge'>conditionally required</span>{% endif %}{% if reference %} <span class='property-status-badge'>reference</span>{% endif %}"
 
-    {{ property.typeDoc }}
-{%- endif %}
+{% if property.fieldDoc %}
+{{ property.fieldDoc | indent(4, true) }}
 
-{%- if property.rules and property.rules|length > 0 %}
+{% endif %}
+{% if not reference and property.typeDoc and property.typeDoc != property.fieldDoc %}
+{{ property.typeDoc | indent(4, true) }}
 
-    ---
+{% endif %}
+{% if property.deprecatedDoc %}
+{{ ("**Deprecated:** " ~ property.deprecatedDoc) | indent(4, true) }}
 
-    **Validation Rules**
+{% endif %}
+{% if reference %}
+{{ reference.description | indent(4, true) }}
 
-{%- set has_details = property.rules | selectattr("details") | list | length > 0 %}
-{%- set has_examples = property.rules | selectattr("examples") | list | length > 0 %}
+{% endif %}
+{% if property.values %}
+    **Allowed values:** {% for value in property.values %}<code>{{ value | table_cell }}</code>{% if not loop.last %}, {% endif %}{% endfor +%}
 
-    <table>
-      <thead>
-        <tr>
-          <th>Rule</th>
-          {%- if has_details %}
-          <th>Details</th>
-          {%- endif %}
-          {%- if has_examples %}
-          <th style="white-space: nowrap;">Examples</th>
-          {%- endif %}
-        </tr>
-      </thead>
-      <tbody>
-        {%- for rule in property.rules %}
-          {%- if rule.examples and rule.examples|length > 0 %}
-            {%- for example in rule.examples %}
-        <tr>
-              {%- if loop.first %}
-          <td rowspan="{{ rule.examples|length }}">{{ rule.description }}</td>
-                {%- if has_details %}
-          <td rowspan="{{ rule.examples|length }}">{{ rule.details or "" }}</td>
-                {%- endif %}
-              {%- endif %}
-          <td style="white-space: nowrap; vertical-align: top;"><code>{{ example }}</code></td>
-        </tr>
-            {%- endfor %}
-          {%- else %}
-        <tr>
-          <td>{{ rule.description }}</td>
-            {%- if has_details %}
-          <td>{{ rule.details or "" }}</td>
-            {%- endif %}
-            {%- if has_examples %}
-          <td style="white-space: nowrap; vertical-align: top;"></td>
-            {%- endif %}
-        </tr>
-          {%- endif %}
-        {%- endfor %}
-      </tbody>
-    </table>
-{%- endif %}
+{% endif %}
+{% if property.examples %}
+    **Examples:**
 
-{%- if property.examples %}
+{% for example in property.examples %}
+{{ example | code_block | indent(4, true) }}
 
-    Examples:
+{% endfor %}
+{% endif %}
+{% if property.rules %}
+    **Validation rules**
 
-    {{ property.examples }}
-{%- endif %}
+{{ render_rules(property.rules) | indent(4, true) }}
 
+{% endif %}
+{% endif %}
 {% endfor %}

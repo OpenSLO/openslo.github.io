@@ -1,12 +1,6 @@
 # SLI
 
-A Service Level Indicator (SLI) defines the measurement method for evaluating service performance.
-SLIs can be defined as standalone objects or inline within an SLO using `spec.indicator`.
-
-An SLI specifies how to measure service reliability using either:
-
-- **Ratio Metric**: Measures the ratio of good events to total events (e.g., successful requests / total requests)
-- **Threshold Metric**: Measures values against a threshold (e.g., response time < 500ms)
+{{ generate_object_description("openslo/v1", "SLI") }}
 
 ## Examples
 

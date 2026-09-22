@@ -33,7 +33,17 @@ theme:
 plugins:
   - blog
   - search
-  - macros
+  - macros:
+      on_error_fail: true
+
+hooks:
+  - main.py
+
+watch:
+  - api.json
+  - property-links.json
+  - schema.py
+  - templates
 
 # Extensions
 markdown_extensions:
@@ -86,14 +96,6 @@ nav:
   - Specification: specification.md
   - Schema:
     - schema.md
-    - v1alpha: schema/v1alpha.md
-    - v1:
-      - v1: schema/v1.md
-      - Service: schema/v1/service.md
-      - SLI: schema/v1/sli.md
-      - SLO: schema/v1/slo.md
-      - Test: schema/v1/test.md
-    - v2alpha: schema/v2alpha.md
   - Tools: tools.md
   - Blog:
       - blog/index.md

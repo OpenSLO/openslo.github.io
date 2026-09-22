@@ -1,28 +1,62 @@
 {
-  "openslo/v1": {
-    "_common": {
-      "metadata": {
-        "link": "../v1.md#metadata",
-        "template": "The metadata section containing identifying information for the object. See [`{{ path }}`]({{ link }}) reference for complete documentation of this common property."
-      }
-    },
-    "SLO": {
-      "spec.indicator": {
-        "link": "sli.md#spec",
-        "template": "Inline SLI (Service Level Indicator) definition. See [`{{ path }}`]({{ link }}) reference for complete documentation of inline indicator properties."
-      }
-    },
-    "AlertCondition": {},
-    "AlertNotificationTarget": {},
-    "AlertPolicy": {},
-    "DataSource": {},
-    "SLI": {},
-    "Service": {}
-  },
   "openslo/v1alpha": {
-    "_common": {}
+    "_types": {
+      "Metadata": {
+        "link": "../v1alpha.md#metadata",
+        "template": "See the [metadata definition in the overview]({{ link }})."
+      }
+    }
+  },
+  "openslo/v1": {
+    "_types": {
+      "Metadata": {
+        "link": "../v1.md#metadata",
+        "template": "See the [metadata definition in the overview]({{ link }})."
+      },
+      "SLOIndicatorInline": {
+        "link": "sli.md#properties",
+        "template": "Use the `metadata` and `spec` properties from the [SLI definition]({{ link }}). The inline form omits `apiVersion` and `kind`."
+      },
+      "AlertPolicySpec": {
+        "link": "alertpolicy.md#spec",
+        "template": "See the [AlertPolicy specification]({{ link }})."
+      },
+      "AlertConditionSpec": {
+        "link": "alertcondition.md#spec",
+        "template": "See the [AlertCondition specification]({{ link }})."
+      },
+      "AlertNotificationTargetSpec": {
+        "link": "alertnotificationtarget.md#spec",
+        "template": "See the [AlertNotificationTarget specification]({{ link }})."
+      }
+    }
   },
   "openslo.com/v2alpha": {
-    "_common": {}
+    "_types": {
+      "Metadata": {
+        "link": "../v2alpha.md#metadata",
+        "template": "See the [metadata definition in the overview]({{ link }})."
+      },
+      "SLOSLIInline": {
+        "link": "sli.md#properties",
+        "template": "Use the `metadata` and `spec` properties from the [SLI definition]({{ link }}). The inline form omits `apiVersion` and `kind`."
+      },
+      "AlertPolicySpec": {
+        "link": "alertpolicy.md#spec",
+        "template": "See the [AlertPolicy specification]({{ link }})."
+      },
+      "AlertConditionSpec": {
+        "link": "alertcondition.md#spec",
+        "template": "See the [AlertCondition specification]({{ link }})."
+      },
+      "AlertNotificationTargetSpec": {
+        "link": "alertnotificationtarget.md#spec",
+        "template": "See the [AlertNotificationTarget specification]({{ link }})."
+      },
+      "DataSourceSpec": {
+        "link": "datasource.md#spec",
+        "template": "See the [DataSource specification]({{ link }})."
+      }
+    }
   }
 }

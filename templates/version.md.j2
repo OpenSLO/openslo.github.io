@@ -1,0 +1,13 @@
+# OpenSLO {{ slug }}
+
+API version: `{{ version }}`.
+
+## Objects
+
+{% for kind in objects %}
+- [{{ kind }}]({{ slug }}/{{ kind | lower }}.md)
+{% endfor %}
+
+## Common metadata
+
+{{ metadata }}
