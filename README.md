@@ -10,6 +10,18 @@ Run `make serve` to preview the website locally.
 Run `make build` to write the website to `site/`.
 Run `make check` to lint Python and test schema generation through MkDocs.
 
+Pull requests run these checks and a strict website build in GitHub Actions.
+Pushes to `main` publish the checked website to the `gh-pages` branch.
+`docs/CNAME` preserves the `openslo.com` domain.
+
+## Specification
+
+Fix specification prose and examples in `OpenSLO/OpenSLO`'s `README.md` first.
+Then run `make generate/specification SPEC_PATH=/path/to/OpenSLO` to update this
+website's copy. The default path is `../OpenSLO`.
+The importer adds website references and preserves separate links to the v2 draft.
+It also identifies the SDK's stricter requirement for a v1 time window.
+
 ## Schema reference
 
 The schema reference comes from `api.json`.
@@ -24,6 +36,15 @@ To update the website from an SDK checkout:
    The default SDK path is `../go-sdk`.
    This command validates the manifest before it replaces `api.json`.
 3. Review the `api.json` diff, then run `make check` and `make build`.
+
+Run `make check/schema-source` to compare the manifest against the SDK's serialized
+fields and govy validation plans. This check requires Go 1.26 or newer.
+It checks rules, conditions, examples, values, and opaque value components against
+the SDK revision pinned in `tools/schema-check/go.mod`.
+Update that pin when importing a manifest from a different SDK revision.
+CI runs this comparison before publication.
+The same check validates complete YAML examples from the specification and
+authored schema pages.
 
 The MkDocs hook in `main.py` generates pages and navigation for every version and
 object in the manifest.

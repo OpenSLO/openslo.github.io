@@ -1,8 +1,9 @@
 ---
 title: "OpenSLO Community Meeting: February 2024"
+slug: openslo-project-meeting-february-2024
 date: 2024-02-21
 draft: false
-authors: 
+authors:
   - Pawel Rusakiewicz
 cover: /images/openslo_logo.svg
 categories:

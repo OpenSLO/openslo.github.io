@@ -9,7 +9,7 @@
 {% else %}
 {% set heading = "###" if "." not in property.display_path else "####" %}
 {% set reference = links.get(property.path) %}
-{{ heading }} {% if reference %}[`{{ property.display_path }}`]({{ reference.url }}){% else %}`{{ property.display_path }}`{% endif %} { #{{ property.anchor }} }
+{{ heading }} {% if reference %}[<code class="property-path">{{ property.display_path | property_path }}</code>]({{ reference.url }}){% else %}<code class="property-path">{{ property.display_path | property_path }}</code>{% endif %} { #{{ property.anchor }} }
 
 ??? property "<span class='property-type-badge'>{{ property.typeInfo.kind | e }}</span>{% if property.required %} <span class='property-status-badge'>required</span>{% elif property.conditionally_required %} <span class='property-status-badge'>conditionally required</span>{% endif %}{% if reference %} <span class='property-status-badge'>reference</span>{% endif %}"
 
@@ -30,7 +30,11 @@
 
 {% endif %}
 {% if property.values %}
-    **Allowed values:** {% for value in property.values %}<code>{{ value | table_cell }}</code>{% if not loop.last %}, {% endif %}{% endfor +%}
+    **{{ "Possible" if property.conditional_values else "Allowed" }} values:** {% for value in property.values %}<code>{{ value | table_cell }}</code>{% if not loop.last %}, {% endif %}{% endfor +%}
+
+{% if property.conditional_values %}
+    The applicable values depend on the conditions in the validation rules below.
+{% endif %}
 
 {% endif %}
 {% if property.examples %}

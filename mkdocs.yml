@@ -12,7 +12,7 @@ repo_url: https://github.com/OpenSLO/OpenSLO
 repo_name: OpenSLO
 
 # Copyright
-copyright: "&copy; 2025 The OpenSLO Contributors | Documentation Distributed under CC BY 4.0 | All Rights Reserved"
+copyright: '&copy; The OpenSLO Contributors | <a href="https://github.com/OpenSLO/openslo.github.io/blob/main/LICENSE">Apache License 2.0</a>'
 
 # Configuration
 theme:
@@ -31,7 +31,8 @@ theme:
 
 # Plugins
 plugins:
-  - blog
+  - blog:
+      post_url_format: "{slug}"
   - search
   - macros:
       on_error_fail: true

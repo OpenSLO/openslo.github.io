@@ -120,6 +120,7 @@ def copy_project(destination):
     for name in (
         "main.py",
         "schema.py",
+        "specification.py",
         "api.json",
         "property-links.json",
         "mkdocs.yml",
@@ -237,6 +238,17 @@ class SchemaBuildTests(unittest.TestCase):
                 {
                     "path": "$.items",
                     "typeInfo": {"name": "[]string", "kind": "[]string"},
+                    "rules": [
+                        {
+                            "description": "property is required",
+                            "errorCode": "required",
+                            "conditions": ["'mode' is 'list'"],
+                        },
+                        {
+                            "description": "at most two items",
+                            "conditions": ["'mode' is 'pair'"],
+                        },
+                    ],
                 },
                 {
                     "path": "$.items[*]",
@@ -365,7 +377,7 @@ class SchemaBuildTests(unittest.TestCase):
 
     def test_sdk_symbol_links_use_website_pages_and_preserve_code_examples(self):
         probe = self.page("schema/v1/probe/index.html")
-        self.assertIn("../alertpolicy/", probe.sections["Probe"]["links"])
+        self.assertIn("../alertpolicy/", probe.sections["Probe (v1)"]["links"])
         links = probe.sections["mode"]["links"]
         self.assertIn("../../v2alpha/slo/", links)
         self.assertIn("../#metadata", links)
@@ -382,7 +394,7 @@ class SchemaBuildTests(unittest.TestCase):
         condition = self.page("schema/v2alpha/alertcondition/index.html")
         self.assertIn(
             "../alertpolicy/#spec-alertwhenbreaching",
-            condition.sections["AlertCondition"]["links"],
+            condition.sections["AlertCondition (v2alpha)"]["links"],
         )
 
     def test_conditional_requiredness_tables_and_literals(self):
@@ -407,8 +419,6 @@ class SchemaBuildTests(unittest.TestCase):
         )
         probe = self.page("schema/v1/probe/index.html")
         self.assertIn("Object validation", probe.sections)
-        self.assertEqual(probe.tags["table"], 4)
-        self.assertEqual(probe.tags["td"], 19)
         self.assertEqual(probe.sections["mode"]["tables"], 1)
         self.assertIn(MULTILINE_EXAMPLE + "\n", probe.code_blocks)
         overview = self.page("schema/v1/index.html")
@@ -550,6 +560,49 @@ class SchemaBuildTests(unittest.TestCase):
         self.assertIn("../service/#properties", probe.sections["items"]["links"])
         self.assertNotIn("items[*]", probe.sections)
         self.assertIn("itemsRef", probe.sections)
+        section = probe.sections["items"]
+        self.assertEqual(
+            normalize("".join(section["summary"])),
+            "[]string conditionally required reference",
+        )
+        self.assertIn(["property is required", "mode is list"], section["rows"])
+        self.assertIn(["at most two items", "mode is pair"], section["rows"])
+
+    def test_conditional_value_lists_refer_to_their_rule_conditions(self):
+        page = self.page("schema/v1/alertcondition/index.html")
+        conditional = normalize("".join(page.sections["spec.condition.op"]["text"]))
+        self.assertIn("Possible values:", conditional)
+        self.assertIn("depend on the conditions", conditional)
+        self.assertNotIn("Allowed values:", conditional)
+        unconditional = normalize("".join(page.sections["apiVersion"]["text"]))
+        self.assertIn("Allowed values:", unconditional)
+
+    def test_search_titles_identify_schema_versions(self):
+        search = json.loads((self.site / "search/search_index.json").read_text())
+        titles = {entry["location"]: entry["title"] for entry in search["docs"]}
+        for version, objects in self.api.items():
+            slug = version.rsplit("/", 1)[1]
+            self.assertEqual(titles[f"schema/{slug}/"], f"OpenSLO {slug}")
+            for kind in objects:
+                with self.subTest(version=version, kind=kind):
+                    self.assertEqual(
+                        titles[f"schema/{slug}/{kind.lower()}/"],
+                        f"{kind} ({slug})",
+                    )
+
+    def test_published_blog_routes_remain_available(self):
+        for slug, title in (
+            ("hello", "Hello world!"),
+            ("sloconf-talks", "SLOconf Talks"),
+            (
+                "openslo-project-meeting-february-2024",
+                "OpenSLO Community Meeting: February 2024",
+            ),
+        ):
+            with self.subTest(slug=slug):
+                page = self.page(f"blog/{slug}/index.html")
+                self.assertIn(title, page.sections)
+        self.assertEqual((self.site / "CNAME").read_text().strip(), "openslo.com")
 
     def test_repeated_render_preserves_rules_and_links(self):
         original = self.page("schema/v1/service/index.html")

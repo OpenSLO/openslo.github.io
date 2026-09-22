@@ -1,3 +1,5 @@
+import re
+
 from mkdocs.structure.files import File
 
 from schema import SchemaDocumentation, SchemaLinksExtension
@@ -59,6 +61,17 @@ def on_files(files, config):
 
 
 def on_page_markdown(markdown, page, config, files):
+    path = page.file.src_uri
+    if match := re.fullmatch(r"schema/(v[^/]+)/[^/]+\.md", path):
+        if heading := re.search(r"^# (.+)$", markdown, flags=re.MULTILINE):
+            title = f"{heading[1]} ({match[1]})"
+            page.title = title
+            markdown = (
+                markdown[: heading.start()] + "# " + title + markdown[heading.end() :]
+            )
+    elif match := re.fullmatch(r"schema/(v[^/]+)\.md", path):
+        page.title = f"OpenSLO {match[1]}"
     for extension in config.markdown_extensions:
         if isinstance(extension, SchemaLinksExtension):
-            extension.source_path = page.file.src_uri
+            extension.source_path = path
+    return markdown

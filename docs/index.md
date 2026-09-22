@@ -41,7 +41,7 @@ To learn more about SLOs, check out [SLOconf.com](https://sloconf.com/).
 
     Create declarative definitions of SLOs that describe thresholds, metrics, and goals for your applications and infrastructure.
 
-    [:octicons-arrow-right-24: Getting started](#)
+    [:octicons-arrow-right-24: Getting started](specification.md)
 
 - <p align="center">
     <img src="assets/images/illustrations/icons/terminal.svg" width="50%">
@@ -53,9 +53,9 @@ To learn more about SLOs, check out [SLOconf.com](https://sloconf.com/).
 
     ---
 
-    Create simple automated GitOps workflows with any CI/CD tool that ensures your SLOs are correctly formatted. Just run `oslo validate slos.yaml`.
+    Validate OpenSLO definitions in your CI/CD workflows with the Oslo CLI.
 
-    [:octicons-arrow-right-24: Reference](#)
+    [:octicons-arrow-right-24: Reference](tools.md#oslo-cli)
 
 - <p align="center">
     <img src="assets/images/illustrations/icons/nodes.svg" width="50%">
@@ -69,6 +69,6 @@ To learn more about SLOs, check out [SLOconf.com](https://sloconf.com/).
 
     OpenSLO is designed to be implementation neutral and allow multiple vendors and other projects to describe and share SLOs in a well-defined format.
 
-    [:octicons-arrow-right-24: Customization](#)
+    [:octicons-arrow-right-24: Customization](schema/v1/datasource.md)
 
 </div>

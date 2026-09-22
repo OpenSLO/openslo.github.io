@@ -99,3 +99,8 @@ table tbody tr:hover {
   align-items: center;
   gap: 4px;
 }
+
+.md-typeset code.property-path {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}

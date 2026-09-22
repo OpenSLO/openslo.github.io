@@ -1,5 +1,6 @@
 ---
 title: SLOconf Talks
+slug: sloconf-talks
 date: 2022-09-23
 draft: false
 authors:
@@ -14,7 +15,7 @@ If you want to explore other talks from the conference, here is the [playlist](h
 
 ### OpenSLO and alerting by Weyert de Boer
 
-Starting with talk about OpenSLO and alerting. It is good place to start to understand what is current position of OpenSLO. 
+Starting with talk about OpenSLO and alerting. It is good place to start to understand what is current position of OpenSLO.
 
 <div class="video-wrapper">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/iYVlmRp3L3I?si=hd2B-uFpBL2IFF1H" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

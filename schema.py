@@ -68,6 +68,13 @@ class Property(PropertyPlan):
             rule.errorCode == "required" for rule in self.rules
         )
 
+    @property
+    def conditional_values(self):
+        return any(
+            rule.conditions and rule.errorCode in {"equal_to", "one_of"}
+            for rule in self.rules
+        )
+
 
 class ObjectSchema(BaseModel):
     name: str
@@ -134,6 +141,10 @@ def code_block(value: str) -> str:
     return f"{fence}text\n{value}\n{fence}"
 
 
+def property_path(value: str) -> Markup:
+    return Markup(".<wbr>").join(table_cell(part) for part in value.split("."))
+
+
 class SchemaDocumentation:
     def __init__(self, api_path: Path = ROOT / "api.json"):
         self.api = load_api(api_path)
@@ -151,6 +162,7 @@ class SchemaDocumentation:
         self.templates.filters["rule_text"] = rule_text
         self.templates.filters["table_cell"] = table_cell
         self.templates.filters["code_block"] = code_block
+        self.templates.filters["property_path"] = property_path
 
     @staticmethod
     def version_slug(version: str):
