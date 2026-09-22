@@ -29,17 +29,21 @@ class TypeInfo(BaseModel):
     package: str = ""
 
 
-class Property(BaseModel):
+class PropertyPlan(BaseModel):
     path: str
     typeInfo: TypeInfo
     rules: list[Rule] = Field(default_factory=list)
+    examples: list[str] = Field(default_factory=list)
+    values: list[str] = Field(default_factory=list)
+    isHidden: bool = False
+
+
+class Property(PropertyPlan):
     typeDoc: str = ""
     fieldDoc: str = ""
     deprecatedDoc: str = ""
-    examples: list[str] = Field(default_factory=list)
-    values: list[str] = Field(default_factory=list)
     childrenPaths: list[str] = Field(default_factory=list)
-    isHidden: bool = False
+    componentPlans: list[PropertyPlan] = Field(default_factory=list)
 
     @property
     def display_path(self):

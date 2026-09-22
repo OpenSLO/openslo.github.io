@@ -31,6 +31,13 @@ object in the manifest.
 rules.
 Builds use the checked-in manifest and require no Go toolchain or SDK checkout.
 
+The SDK generator uses govydoc v0.1.1 to register durations as opaque strings.
+Their `componentPlans` retain validation for the unit and numeric value.
+The website displays these rules inside the duration panel and keeps their
+conditions, values, and examples separate from the parent property's rules.
+Components do not create child property headings or affect the parent's required
+badge.
+
 An authored page under `docs/schema/<version>/<kind>.md` can add examples around
 the schema macros.
 Otherwise, MkDocs creates the page in memory during the build.

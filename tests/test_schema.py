@@ -38,6 +38,8 @@ class HTMLDocument(HTMLParser):
         self.details_depth = 0
         self.code_block = None
         self.code_blocks = []
+        self.row = None
+        self.cell = None
         self.feed(html)
 
     def handle_starttag(self, tag, attributes):
@@ -50,12 +52,22 @@ class HTMLDocument(HTMLParser):
             if self.section is not None:
                 self.section["links"].append(attrs["href"])
         if tag in {"h1", "h2", "h3", "h4"}:
-            self.section = {"text": [], "summary": [], "tables": 0, "links": []}
+            self.section = {
+                "text": [],
+                "summary": [],
+                "tables": 0,
+                "links": [],
+                "rows": [],
+            }
             self.heading = []
         if tag == "details":
             self.details_depth += 1
         if tag == "table" and self.section is not None and self.details_depth:
             self.section["tables"] += 1
+        if tag == "tr" and self.section is not None:
+            self.row = []
+        if tag in {"td", "th"} and self.row is not None:
+            self.cell = []
         if tag == "summary":
             self.in_summary = True
         if tag == "pre":
@@ -64,6 +76,12 @@ class HTMLDocument(HTMLParser):
             self.handle_data(" ")
 
     def handle_endtag(self, tag):
+        if tag in {"td", "th"} and self.cell is not None:
+            self.row.append(normalize("".join(self.cell)))
+            self.cell = None
+        if tag == "tr" and self.row is not None:
+            self.section["rows"].append(self.row)
+            self.row = None
         if tag == "article":
             self.section = None
         if tag in {"h1", "h2", "h3", "h4"} and self.heading is not None:
@@ -84,6 +102,8 @@ class HTMLDocument(HTMLParser):
         self.text.append(data)
         if self.code_block is not None:
             self.code_block.append(data)
+        if self.cell is not None:
+            self.cell.append(data)
         if self.section is not None:
             self.section["text"].append(data)
             if self.in_summary:
@@ -177,6 +197,44 @@ class SchemaBuildTests(unittest.TestCase):
                     ],
                 },
                 {
+                    "path": "$.duration",
+                    "typeInfo": {"name": "OpaqueDuration", "kind": "string"},
+                    "componentPlans": [
+                        {
+                            "path": "$.duration.unit",
+                            "typeInfo": {"name": "string", "kind": "string"},
+                            "values": ["s", "m"],
+                            "examples": ["s", "m"],
+                            "rules": [
+                                {
+                                    "description": "property is required",
+                                    "errorCode": "required",
+                                },
+                                {"description": "must be one of: s, m"},
+                            ],
+                        },
+                        {
+                            "path": "$.duration.value",
+                            "typeInfo": {"name": "int", "kind": "int"},
+                            "examples": ["3"],
+                            "rules": [
+                                {
+                                    "description": "must be greater than or equal to '0'",
+                                    "conditions": ["unit is 's'"],
+                                    "details": "Seconds allow zero.",
+                                    "examples": ["0", "5"],
+                                },
+                                {
+                                    "description": "must be less than or equal to '60'",
+                                    "conditions": ["unit is 'm'"],
+                                    "details": "Minutes have an upper bound.",
+                                    "examples": ["60"],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
                     "path": "$.items",
                     "typeInfo": {"name": "[]string", "kind": "[]string"},
                 },
@@ -250,19 +308,22 @@ class SchemaBuildTests(unittest.TestCase):
                         for key in ("fieldDoc", "typeDoc", "deprecatedDoc"):
                             if prop.get(key):
                                 self.assertIn(prose_text(prop[key]), content)
-                        for value in prop.get("values", []) + prop.get("examples", []):
-                            self.assertIn(normalize(value), content)
-                        for rule in prop.get("rules", []):
-                            for value in [
-                                rule["description"],
-                                rule.get("details", ""),
-                                *rule.get("conditions", []),
-                                *rule.get("examples", []),
-                            ]:
-                                self.assertIn(
-                                    normalize(value).replace("'", ""),
-                                    content.replace("'", ""),
-                                )
+                        for plan in [prop, *prop.get("componentPlans", [])]:
+                            for value in plan.get("values", []) + plan.get(
+                                "examples", []
+                            ):
+                                self.assertIn(normalize(value), content)
+                            for rule in plan.get("rules", []):
+                                for value in [
+                                    rule["description"],
+                                    rule.get("details", ""),
+                                    *rule.get("conditions", []),
+                                    *rule.get("examples", []),
+                                ]:
+                                    self.assertIn(
+                                        normalize(value).replace("'", ""),
+                                        content.replace("'", ""),
+                                    )
 
     def test_all_objects_are_in_navigation_and_schema_links_resolve(self):
         index = self.page("schema/index.html")
@@ -346,8 +407,8 @@ class SchemaBuildTests(unittest.TestCase):
         )
         probe = self.page("schema/v1/probe/index.html")
         self.assertIn("Object validation", probe.sections)
-        self.assertEqual(probe.tags["table"], 2)
-        self.assertEqual(probe.tags["td"], 9)
+        self.assertEqual(probe.tags["table"], 4)
+        self.assertEqual(probe.tags["td"], 19)
         self.assertEqual(probe.sections["mode"]["tables"], 1)
         self.assertIn(MULTILINE_EXAMPLE + "\n", probe.code_blocks)
         overview = self.page("schema/v1/index.html")
@@ -363,6 +424,45 @@ class SchemaBuildTests(unittest.TestCase):
         self.assertNotIn("<img src=x onerror=alert(1)>", html)
         self.assertNotIn("&lt;td&gt;", html)
         self.assertNotIn("WARNING -  Doc file 'schema/", self.build_log)
+
+    def test_component_rules_remain_inside_the_optional_scalar_panel(self):
+        probe = self.page("schema/v1/probe/index.html")
+        section = probe.sections["duration"]
+        self.assertEqual(normalize("".join(section["summary"])), "string")
+        self.assertEqual(section["tables"], 2)
+        self.assertFalse(any(path.startswith("duration.") for path in probe.sections))
+        self.assertIn(
+            [
+                "must be greater than or equal to 0",
+                "unit is s",
+                "Seconds allow zero.",
+                "0 5",
+            ],
+            section["rows"],
+        )
+        self.assertIn(
+            [
+                "must be less than or equal to 60",
+                "unit is m",
+                "Minutes have an upper bound.",
+                "60",
+            ],
+            section["rows"],
+        )
+        for example in ("s", "m", "3"):
+            self.assertIn(example + "\n", probe.code_blocks)
+        for version in ("v1", "v2alpha"):
+            with self.subTest(version=version):
+                slo = self.page(f"schema/{version}/slo/index.html")
+                path = "spec.timeWindow[*].duration"
+                section = slo.sections[path]
+                self.assertEqual(
+                    normalize("".join(section["summary"])), "string required"
+                )
+                self.assertIn(["must be greater than or equal to 0"], section["rows"])
+                self.assertFalse(
+                    any(name.startswith(path + ".") for name in slo.sections)
+                )
 
     def test_metadata_is_defined_only_in_version_overviews(self):
         for version, objects in self.api.items():

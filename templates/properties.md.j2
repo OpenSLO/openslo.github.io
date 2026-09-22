@@ -47,5 +47,31 @@
 {{ render_rules(property.rules) | indent(4, true) }}
 
 {% endif %}
+{% if property.componentPlans %}
+    **Validation of value components**
+
+    These rules apply to parts of this value.
+
+{% for component in property.componentPlans %}
+    **Component:** <code>{{ component.path.removeprefix(property.path).removeprefix(".") | table_cell }}</code>
+
+{% if component.values %}
+    **Possible values:** {% for value in component.values %}<code>{{ value | table_cell }}</code>{% if not loop.last %}, {% endif %}{% endfor +%}
+
+{% endif %}
+{% if component.examples %}
+    **Examples:**
+
+{% for example in component.examples %}
+{{ example | code_block | indent(4, true) }}
+
+{% endfor %}
+{% endif %}
+{% if component.rules %}
+{{ render_rules(component.rules) | indent(4, true) }}
+
+{% endif %}
+{% endfor %}
+{% endif %}
 {% endif %}
 {% endfor %}

@@ -353,7 +353,7 @@
           "path": "$.spec.condition.lookbackWindow",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
           },
           "rules": [
@@ -366,13 +366,61 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation."
+          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation.",
+          "componentPlans": [
+            {
+              "path": "$.spec.condition.lookbackWindow.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.condition.lookbackWindow.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.condition.alertAfter",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
           },
           "rules": [
@@ -385,7 +433,55 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching."
+          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching.",
+          "componentPlans": [
+            {
+              "path": "$.spec.condition.alertAfter.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.condition.alertAfter.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.description",
@@ -1343,7 +1439,7 @@
           "path": "$.spec.conditions[*].spec.condition.lookbackWindow",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
           },
           "rules": [
@@ -1356,13 +1452,61 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation."
+          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation.",
+          "componentPlans": [
+            {
+              "path": "$.spec.conditions[*].spec.condition.lookbackWindow.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.conditions[*].spec.condition.lookbackWindow.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.conditions[*].spec.condition.alertAfter",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
           },
           "rules": [
@@ -1375,7 +1519,55 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching."
+          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching.",
+          "componentPlans": [
+            {
+              "path": "$.spec.conditions[*].spec.condition.alertAfter.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.conditions[*].spec.condition.alertAfter.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.conditions[*].spec.description",
@@ -4676,7 +4868,7 @@
           "path": "$.spec.timeWindow[*].duration",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
           },
           "rules": [
@@ -4686,7 +4878,46 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "Duration is the length of the evaluation window."
+          "fieldDoc": "Duration is the length of the evaluation window.",
+          "componentPlans": [
+            {
+              "path": "$.spec.timeWindow[*].duration.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required"
+                },
+                {
+                  "description": "must be one of: m, h, d, w",
+                  "errorCode": "one_of"
+                }
+              ]
+            },
+            {
+              "path": "$.spec.timeWindow[*].duration.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to"
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.timeWindow[*].isRolling",
@@ -4944,7 +5175,7 @@
           "path": "$.spec.objectives[*].timeSliceWindow",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
           },
           "rules": [
@@ -4964,7 +5195,76 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "TimeSliceWindow sets the size of each slice for Timeslices and RatioTimeslices. OpenSLO also accepts a number interpreted as minutes. This SDK represents only duration shorthand."
+          "fieldDoc": "TimeSliceWindow sets the size of each slice for Timeslices and RatioTimeslices. OpenSLO also accepts a number interpreted as minutes. This SDK represents only duration shorthand.",
+          "componentPlans": [
+            {
+              "path": "$.spec.objectives[*].timeSliceWindow.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
+              },
+              "values": [
+                "d",
+                "h",
+                "m",
+                "w"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'budgetingMethod' is 'Timeslices'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'budgetingMethod' is 'Timeslices'"
+                  ]
+                },
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'budgetingMethod' is 'RatioTimeslices'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'budgetingMethod' is 'RatioTimeslices'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.objectives[*].timeSliceWindow.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'budgetingMethod' is 'Timeslices'"
+                  ]
+                },
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'budgetingMethod' is 'RatioTimeslices'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.objectives[*].sli",
@@ -6993,7 +7293,7 @@
           "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.lookbackWindow",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
           },
           "rules": [
@@ -7006,13 +7306,61 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation."
+          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation.",
+          "componentPlans": [
+            {
+              "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.lookbackWindow.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.lookbackWindow.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.alertAfter",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
           },
           "rules": [
@@ -7025,7 +7373,55 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching."
+          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching.",
+          "componentPlans": [
+            {
+              "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.alertAfter.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v2alpha"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.alertAfter.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.description",
@@ -7986,7 +8382,7 @@
           "path": "$.spec.condition.lookbackWindow",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
           },
           "rules": [
@@ -7999,13 +8395,64 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a case-sensitive [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation."
+          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation.",
+          "componentPlans": [
+            {
+              "path": "$.spec.condition.lookbackWindow.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w",
+                "M",
+                "Q",
+                "Y"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w, M, Q, Y",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.condition.lookbackWindow.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.condition.alertAfter",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
           },
           "rules": [
@@ -8018,7 +8465,58 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a case-sensitive [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching. An [AlertPolicy](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#AlertPolicy) controls whether that state triggers an alert. OpenSLO treats an omitted value as \"0m\". This SDK leaves it unset."
+          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching. An [AlertPolicy](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#AlertPolicy) controls whether that state triggers an alert. OpenSLO treats an omitted value as \"0m\". This SDK leaves it unset.",
+          "componentPlans": [
+            {
+              "path": "$.spec.condition.alertAfter.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w",
+                "M",
+                "Q",
+                "Y"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w, M, Q, Y",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.condition.alertAfter.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.description",
@@ -8983,7 +9481,7 @@
           "path": "$.spec.conditions[*].spec.condition.lookbackWindow",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
           },
           "rules": [
@@ -8996,13 +9494,64 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a case-sensitive [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation."
+          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation.",
+          "componentPlans": [
+            {
+              "path": "$.spec.conditions[*].spec.condition.lookbackWindow.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w",
+                "M",
+                "Q",
+                "Y"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w, M, Q, Y",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.conditions[*].spec.condition.lookbackWindow.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.conditions[*].spec.condition.alertAfter",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
           },
           "rules": [
@@ -9015,7 +9564,58 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a case-sensitive [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching. An [AlertPolicy](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#AlertPolicy) controls whether that state triggers an alert. OpenSLO treats an omitted value as \"0m\". This SDK leaves it unset."
+          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching. An [AlertPolicy](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#AlertPolicy) controls whether that state triggers an alert. OpenSLO treats an omitted value as \"0m\". This SDK leaves it unset.",
+          "componentPlans": [
+            {
+              "path": "$.spec.conditions[*].spec.condition.alertAfter.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w",
+                "M",
+                "Q",
+                "Y"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w, M, Q, Y",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.conditions[*].spec.condition.alertAfter.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.conditions[*].spec.description",
@@ -12063,7 +12663,7 @@
           "path": "$.spec.timeWindow[*].duration",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
           },
           "rules": [
@@ -12073,7 +12673,49 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a case-sensitive [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "Duration is the length of the evaluation window."
+          "fieldDoc": "Duration is the length of the evaluation window.",
+          "componentPlans": [
+            {
+              "path": "$.spec.timeWindow[*].duration.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w",
+                "M",
+                "Q",
+                "Y"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required"
+                },
+                {
+                  "description": "must be one of: m, h, d, w, M, Q, Y",
+                  "errorCode": "one_of"
+                }
+              ]
+            },
+            {
+              "path": "$.spec.timeWindow[*].duration.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to"
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.timeWindow[*].isRolling",
@@ -12331,7 +12973,7 @@
           "path": "$.spec.objectives[*].timeSliceWindow",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
           },
           "rules": [
@@ -12351,7 +12993,79 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a case-sensitive [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "TimeSliceWindow sets the slice size and query interval. It applies to [SLOBudgetingMethodTimeslices](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#SLOBudgetingMethodTimeslices) and [SLOBudgetingMethodRatioTimeslices](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#SLOBudgetingMethodRatioTimeslices). This Go model supports [DurationShorthand](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthand) only. OpenSLO also permits a number, which it interprets as minutes."
+          "fieldDoc": "TimeSliceWindow sets the slice size and query interval. It applies to [SLOBudgetingMethodTimeslices](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#SLOBudgetingMethodTimeslices) and [SLOBudgetingMethodRatioTimeslices](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#SLOBudgetingMethodRatioTimeslices). This Go model supports [DurationShorthand](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthand) only. OpenSLO also permits a number, which it interprets as minutes.",
+          "componentPlans": [
+            {
+              "path": "$.spec.objectives[*].timeSliceWindow.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+              },
+              "values": [
+                "M",
+                "Q",
+                "Y",
+                "d",
+                "h",
+                "m",
+                "w"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'budgetingMethod' is 'Timeslices'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w, M, Q, Y",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'budgetingMethod' is 'Timeslices'"
+                  ]
+                },
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'budgetingMethod' is 'RatioTimeslices'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w, M, Q, Y",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'budgetingMethod' is 'RatioTimeslices'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.objectives[*].timeSliceWindow.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'budgetingMethod' is 'Timeslices'"
+                  ]
+                },
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'budgetingMethod' is 'RatioTimeslices'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.objectives[*].indicator",
@@ -14194,7 +14908,7 @@
           "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.lookbackWindow",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
           },
           "rules": [
@@ -14207,13 +14921,64 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a case-sensitive [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation."
+          "fieldDoc": "LookbackWindow sets the period for burn-rate calculation.",
+          "componentPlans": [
+            {
+              "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.lookbackWindow.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w",
+                "M",
+                "Q",
+                "Y"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w, M, Q, Y",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.lookbackWindow.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.alertAfter",
           "typeInfo": {
             "name": "DurationShorthand",
-            "kind": "struct",
+            "kind": "string",
             "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
           },
           "rules": [
@@ -14226,7 +14991,58 @@
             }
           ],
           "typeDoc": "DurationShorthand represents a duration as an integer and a case-sensitive [DurationShorthandUnit](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#DurationShorthandUnit), such as \"1m\" or \"10d\". A zero value encodes as empty text.",
-          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching. An [AlertPolicy](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#AlertPolicy) controls whether that state triggers an alert. OpenSLO treats an omitted value as \"0m\". This SDK leaves it unset."
+          "fieldDoc": "AlertAfter sets how long the burn-rate comparison must remain true before the condition becomes breaching. An [AlertPolicy](https://pkg.go.dev/github.com/OpenSLO/go-sdk/pkg/openslo/v1#AlertPolicy) controls whether that state triggers an alert. OpenSLO treats an omitted value as \"0m\". This SDK leaves it unset.",
+          "componentPlans": [
+            {
+              "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.alertAfter.unit",
+              "typeInfo": {
+                "name": "DurationShorthandUnit",
+                "kind": "string",
+                "package": "github.com/OpenSLO/go-sdk/pkg/openslo/v1"
+              },
+              "values": [
+                "m",
+                "h",
+                "d",
+                "w",
+                "M",
+                "Q",
+                "Y"
+              ],
+              "rules": [
+                {
+                  "description": "property is required",
+                  "errorCode": "required",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                },
+                {
+                  "description": "must be one of: m, h, d, w, M, Q, Y",
+                  "errorCode": "one_of",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.condition.alertAfter.value",
+              "typeInfo": {
+                "name": "int",
+                "kind": "int"
+              },
+              "rules": [
+                {
+                  "description": "must be greater than or equal to '0'",
+                  "errorCode": "greater_than_or_equal_to",
+                  "conditions": [
+                    "'kind' is 'burnrate'"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "path": "$.spec.alertPolicies[*].spec.conditions[*].spec.description",
