@@ -5,7 +5,6 @@ date: 2022-09-23
 draft: false
 authors:
   - Filip Piwowarczyk
-cover: /sloconf-talks/SLOconf_logo-01.svg
 ---
 
 In May 2022 another [SLOconf](https://www.sloconf.com/) took place, we want to share with you a few of the most interesting talks from that conference.

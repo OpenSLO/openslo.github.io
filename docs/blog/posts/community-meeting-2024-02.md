@@ -5,7 +5,6 @@ date: 2024-02-21
 draft: false
 authors:
   - Pawel Rusakiewicz
-cover: /images/openslo_logo.svg
 categories:
   - Meetings
 ---

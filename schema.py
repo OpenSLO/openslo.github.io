@@ -35,14 +35,12 @@ class PropertyPlan(BaseModel):
     rules: list[Rule] = Field(default_factory=list)
     examples: list[str] = Field(default_factory=list)
     values: list[str] = Field(default_factory=list)
-    isHidden: bool = False
 
 
 class Property(PropertyPlan):
     typeDoc: str = ""
     fieldDoc: str = ""
     deprecatedDoc: str = ""
-    childrenPaths: list[str] = Field(default_factory=list)
     componentPlans: list[PropertyPlan] = Field(default_factory=list)
 
     @property
@@ -77,7 +75,6 @@ class Property(PropertyPlan):
 
 
 class ObjectSchema(BaseModel):
-    name: str
     properties: list[Property]
     doc: str = ""
 
@@ -85,8 +82,8 @@ class ObjectSchema(BaseModel):
 APIDocs = dict[str, dict[str, ObjectSchema]]
 
 
-def load_api(path: Path) -> APIDocs:
-    api = TypeAdapter(APIDocs).validate_json(path.read_text(encoding="utf-8"))
+def parse_api(data: bytes) -> APIDocs:
+    api = TypeAdapter(APIDocs).validate_json(data)
     if not api:
         raise ValueError("The schema manifest contains no versions")
     slugs = set()
@@ -147,7 +144,7 @@ def property_path(value: str) -> Markup:
 
 class SchemaDocumentation:
     def __init__(self, api_path: Path = ROOT / "api.json"):
-        self.api = load_api(api_path)
+        self.api = parse_api(api_path.read_bytes())
         self.links = json.loads(
             (ROOT / "property-links.json").read_text(encoding="utf-8")
         )
@@ -349,8 +346,9 @@ def main():
     parser = argparse.ArgumentParser(description="Import an SDK schema manifest.")
     parser.add_argument("manifest", type=Path)
     args = parser.parse_args()
-    load_api(args.manifest)
-    (ROOT / "api.json").write_bytes(args.manifest.read_bytes())
+    data = args.manifest.read_bytes()
+    parse_api(data)
+    (ROOT / "api.json").write_bytes(data)
 
 
 if __name__ == "__main__":

@@ -24,9 +24,9 @@ check: check/python test
 check/python:
 	ruff check .
 
-## Compare the manifest with the pinned SDK's fields and govy plans.
-check/schema-source:
-	cd tools/schema-check && go test -count=1 ./...
+## Validate complete YAML examples with the pinned SDK.
+check/examples:
+	cd tools/example-check && go test -count=1 ./...
 
 ## Test schema generation through MkDocs.
 test:

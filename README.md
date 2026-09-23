@@ -6,6 +6,7 @@ and Ruff.
 
 ## Development
 
+Run `devbox shell` to enter the configured development environment.
 Run `make serve` to preview the website locally.
 Run `make build` to write the website to `site/`.
 Run `make check` to lint Python and test schema generation through MkDocs.
@@ -37,14 +38,16 @@ To update the website from an SDK checkout:
    This command validates the manifest before it replaces `api.json`.
 3. Review the `api.json` diff, then run `make check` and `make build`.
 
-Run `make check/schema-source` to compare the manifest against the SDK's serialized
-fields and govy validation plans. This check requires Go 1.26 or newer.
-It checks rules, conditions, examples, values, and opaque value components against
-the SDK revision pinned in `tools/schema-check/go.mod`.
-Update that pin when importing a manifest from a different SDK revision.
-CI runs this comparison before publication.
-The same check validates complete YAML examples from the specification and
-authored schema pages.
+Website tests cover rendering, references, links, navigation, and imports.
+Field extraction and validation-plan correctness belong to govydoc, govy, and
+the SDK generator.
+
+Run `make check/examples` to validate complete YAML examples from the specification
+and authored schema pages. This content check uses the SDK's public decoder and
+validator. It requires Go 1.26 or newer and the SDK revision pinned in
+`tools/example-check/go.mod`.
+Update that pin when the examples must follow a different SDK revision.
+CI runs this check before publication.
 
 The MkDocs hook in `main.py` generates pages and navigation for every version and
 object in the manifest.
