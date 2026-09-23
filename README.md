@@ -1,5 +1,10 @@
 # The OpenSLO homepage source code
 
+> [!WARNING]
+> The OpenSLO website source now lives in
+> [OpenSLO/OpenSLO](https://github.com/OpenSLO/OpenSLO/tree/main/website).
+> Submit website changes there. The instructions below describe the retired website.
+
 Everything that has been committed to the `main` branch is published automatically to [openslo.com](https://openslo.com/).
 
 The website is built with [HUGO](https://gohugo.io/). To run it locally execute
