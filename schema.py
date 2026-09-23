@@ -106,7 +106,7 @@ def load_api(path: Path) -> APIDocs:
                     f"Invalid or duplicate property paths for {version}/{kind}"
                 )
     return dict(
-        sorted(api.items(), key=lambda item: SchemaDocumentation.version_slug(item[0]))
+        sorted(api.items(), key=lambda item: SchemaDocumentation.version_order(item[0]))
     )
 
 
@@ -169,6 +169,18 @@ class SchemaDocumentation:
         if not re.fullmatch(r"openslo(?:\.com)?/v\d+(?:(?:alpha|beta)\d*)?", version):
             raise ValueError(f"Invalid schema API version: {version}")
         return version.rsplit("/", 1)[1]
+
+    @staticmethod
+    def version_order(version: str):
+        slug = SchemaDocumentation.version_slug(version)
+        match = re.fullmatch(r"v(\d+)(?:(alpha|beta)(\d*))?", slug)
+        major, stage, revision = match.groups()
+        return (
+            stage is not None,
+            -int(major),
+            {None: 0, "beta": 1, "alpha": 2}[stage],
+            -int(revision or 0),
+        )
 
     def object_schema(self, version: str, kind: str) -> ObjectSchema:
         try:

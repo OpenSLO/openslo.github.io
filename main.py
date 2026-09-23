@@ -65,12 +65,13 @@ def on_page_markdown(markdown, page, config, files):
     if match := re.fullmatch(r"schema/(v[^/]+)/[^/]+\.md", path):
         if heading := re.search(r"^# (.+)$", markdown, flags=re.MULTILINE):
             title = f"{heading[1]} ({match[1]})"
-            page.title = title
+            page.meta["title"] = title
             markdown = (
                 markdown[: heading.start()] + "# " + title + markdown[heading.end() :]
             )
     elif match := re.fullmatch(r"schema/(v[^/]+)\.md", path):
-        page.title = f"OpenSLO {match[1]}"
+        page.meta["title"] = f"OpenSLO {match[1]}"
+        page.meta["icon"] = "material/book-open-page-variant-outline"
     for extension in config.markdown_extensions:
         if isinstance(extension, SchemaLinksExtension):
             extension.source_path = path

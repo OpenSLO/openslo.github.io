@@ -2,8 +2,6 @@
 
 # Specification
 
-This page follows the [upstream specification](https://github.com/OpenSLO/OpenSLO/blob/main/README.md).
-
 ## Introduction
 
 The intent of this document is to outline the OpenSLO specification.
@@ -186,8 +184,8 @@ spec:
   service: string # name of the service to associate this SLO with, may refer (depends on implementation) to existing object Kind: Service
   indicator: # see SLI below for details
   indicatorRef: string # name of the SLI. Required if indicator is not given.
-  timeWindow: # optional
-    # if present, exactly one rolling or calendar-aligned time window
+  timeWindow:
+    # exactly one item; one of possible: rolling or calendar–aligned time window
     ## rolling time window
     - duration: duration-shorthand # duration of the window eg 1d, 4w
       isRolling: true
@@ -210,8 +208,8 @@ spec:
   One of `indicator` or `indicatorRef` must be given. If declaring composite SLO must be moved into `objectives[]`.
 - **indicatorRef** optional, this is the name of Service Level Indicator (SLI).
   One of `indicator` or `indicatorRef` must be given. If declaring composite SLO must be moved into `objectives[]`.
-- **timeWindow[ ]** optional, a list of _TimeWindow_ values.
-  If present, it must contain exactly one rolling or calendar-aligned time window:
+- **timeWindow[ ]** optional, _TimeWindow_ is a list but accepting only exactly one
+  item, one of the rolling or calendar aligned time window:
 
   - Rolling time window. Duration should be provided in shorthand format
     e.g. 5m, 4w, 31d.
@@ -244,12 +242,12 @@ the tolerance levels for your metrics.
 objectives:
   - displayName: string # optional
     op: lte | gte | lt | gt # conditional operator used to compare the SLI against the value. Only needed when using a thresholdMetric
-    value: numeric # optional, value used to compare threshold metrics. Only needed when using a thresholdMetric
+    value: numeric # required, value used to compare threshold metrics. Only needed when using a thresholdMetric
     target: numeric [0.0, 1.0) # budget target for given objective of the SLO, can't be used with targetPercent
     targetPercent: numeric [0.0, 100) # budget target for given objective of the SLO, can't be used with target
-    timeSliceTarget: numeric (0.0, 1.0] # required only when budgetingMethod is set to TimeSlices
-    timeSliceWindow: duration-shorthand # required only when budgetingMethod is set to TimeSlices or RatioTimeslices
-    indicator: # required only when creating composite SLO, see SLI below for more details
+    timeSliceTarget: numeric (0.0, 1.0] # required only when budgetingMethod is set to Timeslices
+    timeSliceWindow: numeric | duration-shorthand # required only when budgetingMethod is set to Timeslices or RatioTimeslices
+    indicator: # required only when creating composite SLO if indicatorRef is not given, see SLI below for more details
     indicatorRef: string # required only when creating composite SLO, required if indicator is not given.
     compositeWeight: numeric (0.0, inf+] # optional, supported only when declaring multiple objectives, default value 1.
 ```
@@ -281,11 +279,11 @@ Either `target` or `targetPercent` must be used.
   be used. Budget target for a given objective of the SLO. A `targetPercent: 99.95`
   is equivalent to `target: 0.9995`.
 
-- **timeSliceTarget** _numeric [0.0, 1.0]_, required only when budgeting
-  method is set to TimeSlices
+- **timeSliceTarget** _numeric (0.0, 1.0]_, required only when budgeting
+  method is set to Timeslices
 
 - **timeSliceWindow** _(numeric | duration-shorthand)_, required only when budgeting
-  method is set to TimeSlices or RatioTimeslices. Denotes the size of a time slice for
+  method is set to Timeslices or RatioTimeslices. Denotes the size of a time slice for
   which data will be evaluated e.g. 5, 1m, 10m, 2h, 1d. Also ascertains the frequency
   at which to run the queries. Default interpretation of unit if specified as a number
   in minutes.
@@ -316,10 +314,10 @@ impact:
 - Occurrences - if SLO burns its budget composite is burning its budget at the same rate. Each violation that consumed
   SLO's budget will impact Composite at the same rate. Weight multiplies the rate of burning of SLO (referenced as burn
   rate) that burns composite.
-- Timeslices - this is binary depending on whether it was a good or bad minute. If it was a bad minute for any individual
-  objective, it's considered a bad minute for the Composite SLO.
-- Ratiotimeslices - it is the sum of missing up to 100 percent. If two SLOs have average of Ratiotimeslices on 95%,
-  composite will have average of Ratiotimeslices on 90%. Weight multiplies missing part of given slo.
+- Timeslices - this is binary depending on whether it was a good or bad time slice. If it was a bad time slice for any individual
+  objective, it's considered a bad time slice for the Composite SLO.
+- RatioTimeslices - it is the sum of missing up to 100 percent. If two SLOs have average of RatioTimeslices on 95%,
+  composite will have average of RatioTimeslices on 90%. Weight multiplies missing part of given slo.
 
 #### SLI
 
@@ -480,7 +478,7 @@ indicatorValue = ( total - bad ) / total
 ```
 
 If we have 1 error out of a total of 100 requests, the calculated value for
-the indicator would be: `(100 - 1) = 0.99`. This represents 99% on a 0-100 scale
+the indicator would be: `(100 - 1) / 100 = 0.99`. This represents 99% on a 0-100 scale
 using the formula `0.99 * 100 = 99`.
 
 > 💡 **Note:** As you can see for both query combinations we end up with the same calculated
@@ -577,7 +575,7 @@ spec:
   A condition can be defined inline or can refer to external Alert condition defined in this case the following are required:
   - **conditionRef** _string_: this is the name of the Alert condition
 - **notificationTargets\[ \]** _Alert Notification Target_, required field.
-  A condition can be defined inline or can refer to an [AlertNotificationTarget](#alertnotificationtarget)
+  A notification target can be defined inline or can refer to an [AlertNotificationTarget](#alertnotificationtarget)
   object, in which case the following are required:
   - **targetRef** _string_: this is the name of the AlertNotificationTarget
 
@@ -654,7 +652,7 @@ spec:
     op: enum
     threshold: number
     lookbackWindow: duration-shorthand
-    alertAfter: duration-shorthand
+    alertAfter: duration-shorthand # optional, defaults to 0m
 ```
 
 ##### Notes (AlertCondition)
@@ -664,12 +662,12 @@ spec:
 - **condition**, required field. Defines the conditions of the alert
   - **kind** _enum(burnrate)_ the kind of alerting condition thats checked, defaults to `burnrate`
 
-If the kind is `burnrate` the following fields are required:
+If the kind is `burnrate` the following fields apply:
 
 - **op** _enum(lte | gte | lt | gt)_, required field, the conditional operator used to compare against the threshold
 - **threshold** _number_, required field, the threshold that you want alert on
 - **lookbackWindow** _duration-shorthand_, required field, the time-frame for which to calculate the threshold e.g. `5m`
-- **alertAfter** _duration-shorthand_: the duration the condition needs to be valid for before alerting, defaults to `0m`
+- **alertAfter** _duration-shorthand_, optional: the duration the condition needs to be valid for before alerting, defaults to `0m`
 
 If the alert condition is breaching, and the alert policy has `alertWhenBreaching` set to `true`
 the alert will be triggered

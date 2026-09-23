@@ -93,6 +93,17 @@ table tbody tr:hover {
   /* matches the border of property-type-badge, so both boxes have equal size */
   border: 1px solid #d73a49;
 }
+
+.property-status-badge--conditional {
+  background-color: #b45309;
+  border-color: #b45309;
+}
+
+.property-status-badge--reference {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
 /* Optional: Clean up the admonition header spacing */
 .md-typeset .admonition.property > .admonition-title {
   display: flex;
@@ -103,4 +114,82 @@ table tbody tr:hover {
 .md-typeset code.property-path {
   word-break: normal;
   overflow-wrap: anywhere;
+}
+
+.md-nav--primary .md-nav__link:has(> svg) {
+  font-weight: 600;
+}
+
+.property-controls:not([hidden]) {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.25rem;
+}
+
+.property-controls button:not(.property-controls__toggle) {
+  font: inherit;
+  font-size: 0.6rem;
+  min-block-size: 1.2rem;
+  padding: 0.2em 0.6em;
+  border: 0;
+  background: none;
+  color: var(--md-default-fg-color--light);
+  cursor: pointer;
+}
+
+.property-controls button:hover,
+.property-controls button:focus-visible {
+  color: var(--md-accent-fg-color);
+  text-decoration: underline;
+}
+
+.property-controls button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.property-toc-heading {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 0 0.4rem 0.4rem var(--md-default-bg-color);
+}
+
+.property-toc-heading .md-nav__title {
+  position: static;
+  box-shadow: none;
+}
+
+.property-toc-heading .property-controls {
+  margin: 0.15rem 0.25rem 0.35rem;
+}
+
+.md-header .property-controls button {
+  color: var(--md-primary-bg-color);
+}
+
+.property-controls .property-controls__toggle,
+.md-header .property-controls button:not(.property-controls__toggle) {
+  display: none;
+}
+
+.md-header .property-controls__toggle {
+  display: block;
+}
+
+.property-controls__toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+@media (pointer: coarse) {
+  .property-controls button:not(.property-controls__toggle) {
+    min-block-size: 2.2rem;
+  }
+}
+
+@media print {
+  .property-controls:not([hidden]) {
+    display: none;
+  }
 }

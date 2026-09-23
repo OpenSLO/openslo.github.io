@@ -91,6 +91,9 @@ extra:
 extra_css:
   - extra.css
 
+extra_javascript:
+  - property-details.js
+
 # Navigation tree
 nav:
   - Home: index.md

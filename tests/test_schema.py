@@ -31,6 +31,8 @@ class HTMLDocument(HTMLParser):
         self.links = []
         self.tags = Counter()
         self.text = []
+        self.navigation = []
+        self.navigation_depth = 0
         self.sections = {}
         self.section = None
         self.heading = None
@@ -45,6 +47,10 @@ class HTMLDocument(HTMLParser):
     def handle_starttag(self, tag, attributes):
         attrs = dict(attributes)
         self.tags[tag] += 1
+        if tag == "nav" and (
+            self.navigation_depth or "md-nav--primary" in attrs.get("class", "").split()
+        ):
+            self.navigation_depth += 1
         if "id" in attrs:
             self.ids.append(attrs["id"])
         if tag == "a" and "href" in attrs:
@@ -76,6 +82,8 @@ class HTMLDocument(HTMLParser):
             self.handle_data(" ")
 
     def handle_endtag(self, tag):
+        if tag == "nav" and self.navigation_depth:
+            self.navigation_depth -= 1
         if tag in {"td", "th"} and self.cell is not None:
             self.row.append(normalize("".join(self.cell)))
             self.cell = None
@@ -100,6 +108,8 @@ class HTMLDocument(HTMLParser):
 
     def handle_data(self, data):
         self.text.append(data)
+        if self.navigation_depth:
+            self.navigation.append(data)
         if self.code_block is not None:
             self.code_block.append(data)
         if self.cell is not None:
@@ -589,6 +599,31 @@ class SchemaBuildTests(unittest.TestCase):
                         titles[f"schema/{slug}/{kind.lower()}/"],
                         f"{kind} ({slug})",
                     )
+                    html = (
+                        self.site / f"schema/{slug}/{kind.lower()}/index.html"
+                    ).read_text()
+                    self.assertIn(f"<title>{kind} ({slug}) - OpenSLO</title>", html)
+
+    def test_sidebar_uses_short_labels_and_prioritizes_stable_versions(self):
+        page = self.page("schema/index.html")
+        labels = [normalize(text) for text in page.navigation if normalize(text)]
+        versions = ["v1", "v2alpha", "v1alpha"]
+        self.assertEqual(
+            list(dict.fromkeys(label for label in labels if label in versions)),
+            versions,
+        )
+        self.assertEqual(labels.count("Overview"), len(versions))
+        for version, objects in self.api.items():
+            slug = version.rsplit("/", 1)[1]
+            for kind in objects:
+                self.assertIn(kind, labels)
+                self.assertNotIn(f"{kind} ({slug})", labels)
+        overview_links = [
+            link
+            for link in page.sections["Schema"]["links"]
+            if link in {f"{v}/" for v in versions}
+        ]
+        self.assertEqual(overview_links, [f"{v}/" for v in versions])
 
     def test_published_blog_routes_remain_available(self):
         for slug, title in (

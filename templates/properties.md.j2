@@ -1,4 +1,12 @@
 {% from "rules.md.j2" import render_rules %}
+<div class="property-controls" role="group" aria-label="Property visibility" hidden>
+  <button type="button" data-property-action="expand">Expand all</button>
+  <button type="button" data-property-action="collapse">Collapse all</button>
+  <button type="button" class="property-controls__toggle md-header__button md-icon" data-property-action="toggle" aria-label="Expand all properties" aria-expanded="false" title="Expand all properties">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+  </button>
+</div>
+
 {% for property in properties %}
 {% if property.path == "$" %}
 {% if property.rules %}
@@ -11,7 +19,7 @@
 {% set reference = links.get(property.path) %}
 {{ heading }} {% if reference %}[<code class="property-path">{{ property.display_path | property_path }}</code>]({{ reference.url }}){% else %}<code class="property-path">{{ property.display_path | property_path }}</code>{% endif %} { #{{ property.anchor }} }
 
-??? property "<span class='property-type-badge'>{{ property.typeInfo.kind | e }}</span>{% if property.required %} <span class='property-status-badge'>required</span>{% elif property.conditionally_required %} <span class='property-status-badge'>conditionally required</span>{% endif %}{% if reference %} <span class='property-status-badge'>reference</span>{% endif %}"
+??? property "<span class='property-type-badge'>{{ property.typeInfo.kind | e }}</span>{% if property.required %} <span class='property-status-badge'>required</span>{% elif property.conditionally_required %} <span class='property-status-badge property-status-badge--conditional'>conditionally required</span>{% endif %}{% if reference %} <span class='property-status-badge property-status-badge--reference'>reference</span>{% endif %}"
 
 {% if property.fieldDoc %}
 {{ property.fieldDoc | indent(4, true) }}
